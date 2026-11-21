@@ -1,4 +1,4 @@
-"""Core data contracts and verification primitives for AGY Paper Co-Author."""
+"""Core data contracts and deterministic verification gates for AGY Paper Co-Author."""
 
 from agy_paper_agent.contracts import (
     SCHEMA_REGISTRY,
@@ -24,6 +24,13 @@ from agy_paper_agent.contracts import (
     VisualSpec,
     export_all_schemas,
 )
+from agy_paper_agent.verifiers import (
+    run_all_gates,
+    verify_citation_integrity,
+    verify_latex_build,
+    verify_numeric_fidelity,
+    verify_symbol_consistency,
+)
 
 __all__ = [
     "SCHEMA_REGISTRY",
@@ -48,4 +55,9 @@ __all__ = [
     "VisualKind",
     "VisualSpec",
     "export_all_schemas",
+    "run_all_gates",
+    "verify_citation_integrity",
+    "verify_latex_build",
+    "verify_numeric_fidelity",
+    "verify_symbol_consistency",
 ]
