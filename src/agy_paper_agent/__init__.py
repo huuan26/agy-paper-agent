@@ -1,5 +1,13 @@
-"""Core data contracts, bundle lifecycle, deterministic gates, and external tools."""
+"""Core data contracts, bundle lifecycle, deterministic gates, tools, and AGY SDK adapter."""
 
+from agy_paper_agent.ablation_harness import (
+    CitationAblationMetrics,
+    GateAblationMetrics,
+    ablate_citation_sources,
+    ablate_deterministic_gates,
+    ablate_plot_safety_and_fidelity,
+    run_full_ablation_suite,
+)
 from agy_paper_agent.bundle import (
     BundleStatus,
     init_paper_bundle,
@@ -30,6 +38,14 @@ from agy_paper_agent.contracts import (
     VisualSpec,
     export_all_schemas,
 )
+from agy_paper_agent.sdk_adapter import (
+    GoogleAntigravityBackend,
+    RunTelemetryReport,
+    SDKBudgetSettings,
+    SDKPaperCoAuthorRunner,
+    StageTelemetry,
+    build_sdk_custom_tools,
+)
 from agy_paper_agent.tools import (
     CandidateQuery,
     MultiSourceCitationVerifier,
@@ -50,12 +66,15 @@ __all__ = [
     "SCHEMA_REGISTRY",
     "BundleStatus",
     "CandidateQuery",
+    "CitationAblationMetrics",
     "CitationRegistry",
     "CitationSource",
     "DeterministicGateSuite",
     "ExternalIds",
+    "GateAblationMetrics",
     "GateName",
     "GateResult",
+    "GoogleAntigravityBackend",
     "IntroRelatedWorkPlan",
     "MultiSourceCitationVerifier",
     "OutlineContract",
@@ -64,7 +83,11 @@ __all__ = [
     "ReviewerCritique",
     "ReviewerRole",
     "RevisionDecision",
+    "RunTelemetryReport",
+    "SDKBudgetSettings",
+    "SDKPaperCoAuthorRunner",
     "SectionPlan",
+    "StageTelemetry",
     "SubsectionPlan",
     "SymbolEntry",
     "SymbolTable",
@@ -72,12 +95,17 @@ __all__ = [
     "VisualBuildResult",
     "VisualKind",
     "VisualSpec",
+    "ablate_citation_sources",
+    "ablate_deterministic_gates",
+    "ablate_plot_safety_and_fidelity",
     "audit_plot_script_ast",
+    "build_sdk_custom_tools",
     "compile_tikz_diagram",
     "export_all_schemas",
     "init_paper_bundle",
     "inspect_bundle",
     "run_all_gates",
+    "run_full_ablation_suite",
     "run_matplotlib_script",
     "verify_citation_integrity",
     "verify_latex_build",

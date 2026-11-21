@@ -1,0 +1,12 @@
+{
+  "clean_bundle_false_positives": 0,
+  "injected_defects_total": 4,
+  "defects_caught_by_gates": 4,
+  "defect_catch_rate": 1.0,
+  "per_defect_caught": {
+    "hallucinated_metric_number": true,
+    "hallucinated_citation_key": true,
+    "conflicting_symbol_domain": true,
+    "undefined_latex_reference": true
+  }
+}

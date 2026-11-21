@@ -7,6 +7,7 @@ import json
 import sys
 from pathlib import Path
 
+from agy_paper_agent.ablation_harness import ablate_deterministic_gates
 from agy_paper_agent.bundle import init_paper_bundle, inspect_bundle, verify_paper_bundle
 from agy_paper_agent.contracts import export_all_schemas
 from agy_paper_agent.tools import (
@@ -56,6 +57,10 @@ def _build_parser() -> argparse.ArgumentParser:
     p_gate.add_argument("--enforce-utilization", action="store_true")
     p_gate.add_argument("--report-out", type=Path, default=None)
     p_gate.add_argument("--output-pdf", type=Path, default=None)
+
+    p_abl = sub.add_parser("run-ablations", help="Run deterministic guardrails ablation on bundle.")
+    p_abl.add_argument("--bundle-dir", type=Path, required=True)
+    p_abl.add_argument("--report-out", type=Path, default=None)
 
     return parser
 
@@ -147,6 +152,22 @@ def main(argv: list[str] | None = None) -> int:
         )
         sys.stdout.write(json.dumps(suite.model_dump(), indent=2) + "\n")
         return 0 if suite.all_passed else 1
+
+    if args.subcommand == "run-ablations":
+        metrics = ablate_deterministic_gates(args.bundle_dir)
+        payload = {
+            "clean_bundle_false_positives": metrics.clean_bundle_false_positives,
+            "injected_defects_total": metrics.injected_defects_total,
+            "defects_caught_by_gates": metrics.defects_caught_by_gates,
+            "defect_catch_rate": metrics.defect_catch_rate,
+            "per_defect_caught": metrics.per_defect_caught,
+        }
+        rendered = json.dumps(payload, indent=2) + "\n"
+        if args.report_out:
+            args.report_out.parent.mkdir(parents=True, exist_ok=True)
+            args.report_out.write_text(rendered, encoding="utf-8")
+        sys.stdout.write(rendered)
+        return 0 if metrics.defect_catch_rate == 1.0 else 1
 
     return 1
 

@@ -74,19 +74,15 @@ class SourceNumberPool:
     def matches(self, raw_literal: str, value: float, has_percent_context: bool = False) -> bool:
         decimals = _count_decimals(raw_literal)
         tol = 0.5 * (10.0 ** (-decimals)) + 1e-12
-        candidates = [value]
-        if has_percent_context:
-            candidates.extend([value / 100.0, value * 100.0])
-        for cand in candidates:
-            for src in self.raw_values:
-                if math.isclose(cand, src, abs_tol=tol, rel_tol=0.0):
+        for src in self.raw_values:
+            if math.isclose(value, src, abs_tol=tol, rel_tol=0.0):
+                return True
+            if has_percent_context:
+                # Compare at candidate's displayed decimal precision without 100x tolerance drift
+                if math.isclose(value, src * 100.0, abs_tol=tol, rel_tol=0.0):
                     return True
-                if has_percent_context:
-                    # Also allow comparing scaled source at candidate's displayed decimal precision
-                    if math.isclose(value, src * 100.0, abs_tol=tol, rel_tol=0.0):
-                        return True
-                    if math.isclose(value, src / 100.0, abs_tol=tol, rel_tol=0.0):
-                        return True
+                if math.isclose(value, src / 100.0, abs_tol=tol, rel_tol=0.0):
+                    return True
         return False
 
 
@@ -208,8 +204,15 @@ def _check_plot_script_ast(script_path: Path, pool: SourceNumberPool) -> tuple[l
             if isinstance(node.value, (ast.List, ast.Tuple)):
                 nums = [_extract_num(elt) for elt in node.value.elts]
                 real_nums = [n for n in nums if n is not None]
-                # Data series typically have >= 2 numeric points
+                # Data series typically have >= 2 numeric points (skip 0/1-based step indices)
                 if len(real_nums) >= 2:
+                    if len(real_nums) >= 3 and all("." not in s for s, _ in real_nums):
+                        int_vals = [int(v) for _, v in real_nums]
+                        if int_vals in (
+                            list(range(len(int_vals))),
+                            list(range(1, len(int_vals) + 1)),
+                        ):
+                            continue
                     for seg, val in real_nums:
                         checked += 1
                         if not pool.matches(seg, val, has_percent_context=True):

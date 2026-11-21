@@ -16,6 +16,9 @@ dependencies = [
 viz = [
     "matplotlib>=3.8",
 ]
+sdk = [
+    "google-antigravity>=0.0.9",
+]
 dev = [
     "matplotlib>=3.8",
     "pytest>=8.0",
