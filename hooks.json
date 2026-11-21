@@ -1,16 +1,23 @@
 {
   "paper-deterministic-guardrails": {
-    "enabled": false,
-    "PostToolUse": [
+    "enabled": true,
+    "PreToolUse": [
       {
-        "matcher": "write_file|edit_file",
+        "matcher": "invoke_subagent",
         "hooks": [
           {
             "type": "command",
             "command": "python -m agy_paper_agent.hooks_entry",
-            "timeout": 30
+            "timeout": 10
           }
         ]
+      }
+    ],
+    "Stop": [
+      {
+        "type": "command",
+        "command": "python -m agy_paper_agent.hooks_entry",
+        "timeout": 90
       }
     ]
   }

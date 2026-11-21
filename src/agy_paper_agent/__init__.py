@@ -1,4 +1,4 @@
-"""Core data contracts and deterministic verification gates for AGY Paper Co-Author."""
+"""Core data contracts, deterministic verification gates, and external tools."""
 
 from agy_paper_agent.contracts import (
     SCHEMA_REGISTRY,
@@ -24,6 +24,14 @@ from agy_paper_agent.contracts import (
     VisualSpec,
     export_all_schemas,
 )
+from agy_paper_agent.tools import (
+    CandidateQuery,
+    MultiSourceCitationVerifier,
+    VisualBuildResult,
+    audit_plot_script_ast,
+    compile_tikz_diagram,
+    run_matplotlib_script,
+)
 from agy_paper_agent.verifiers import (
     run_all_gates,
     verify_citation_integrity,
@@ -34,6 +42,7 @@ from agy_paper_agent.verifiers import (
 
 __all__ = [
     "SCHEMA_REGISTRY",
+    "CandidateQuery",
     "CitationRegistry",
     "CitationSource",
     "DeterministicGateSuite",
@@ -41,6 +50,7 @@ __all__ = [
     "GateName",
     "GateResult",
     "IntroRelatedWorkPlan",
+    "MultiSourceCitationVerifier",
     "OutlineContract",
     "RelatedWorkCluster",
     "ReviewDecisionOutcome",
@@ -52,10 +62,14 @@ __all__ = [
     "SymbolEntry",
     "SymbolTable",
     "VerifiedPaper",
+    "VisualBuildResult",
     "VisualKind",
     "VisualSpec",
+    "audit_plot_script_ast",
+    "compile_tikz_diagram",
     "export_all_schemas",
     "run_all_gates",
+    "run_matplotlib_script",
     "verify_citation_integrity",
     "verify_latex_build",
     "verify_numeric_fidelity",
