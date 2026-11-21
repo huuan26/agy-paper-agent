@@ -1,0 +1,18 @@
+{
+  "name": "agy-paper-agent",
+  "displayName": "AGY Paper Co-Author",
+  "version": "0.1.0",
+  "description": "Interactive Co-Author multi-agent system for rigorous LaTeX scientific manuscript authoring with deterministic verification gates and pure vector visuals.",
+  "author": {
+    "name": "huuan26"
+  },
+  "license": "Apache-2.0",
+  "keywords": [
+    "antigravity",
+    "scientific-writing",
+    "latex",
+    "multi-agent",
+    "verification",
+    "co-author"
+  ]
+}

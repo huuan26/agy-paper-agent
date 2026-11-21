@@ -1,0 +1,320 @@
+{
+  "$defs": {
+    "IntroRelatedWorkPlan": {
+      "additionalProperties": false,
+      "properties": {
+        "hook_hypothesis": {
+          "minLength": 10,
+          "title": "Hook Hypothesis",
+          "type": "string"
+        },
+        "macro_intro_queries": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 8,
+          "minItems": 2,
+          "title": "Macro Intro Queries",
+          "type": "array"
+        },
+        "micro_rw_clusters": {
+          "items": {
+            "$ref": "#/$defs/RelatedWorkCluster"
+          },
+          "maxItems": 6,
+          "minItems": 2,
+          "title": "Micro Rw Clusters",
+          "type": "array"
+        },
+        "problem_gap_hypothesis": {
+          "minLength": 10,
+          "title": "Problem Gap Hypothesis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "hook_hypothesis",
+        "problem_gap_hypothesis",
+        "macro_intro_queries",
+        "micro_rw_clusters"
+      ],
+      "title": "IntroRelatedWorkPlan",
+      "type": "object"
+    },
+    "RelatedWorkCluster": {
+      "additionalProperties": false,
+      "properties": {
+        "bridge_to_our_method": {
+          "minLength": 10,
+          "title": "Bridge To Our Method",
+          "type": "string"
+        },
+        "cluster_id": {
+          "minLength": 2,
+          "title": "Cluster Id",
+          "type": "string"
+        },
+        "limitation_hypothesis": {
+          "minLength": 10,
+          "title": "Limitation Hypothesis",
+          "type": "string"
+        },
+        "limitation_search_queries": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Limitation Search Queries",
+          "type": "array"
+        },
+        "methodology_cluster": {
+          "minLength": 3,
+          "title": "Methodology Cluster",
+          "type": "string"
+        },
+        "sota_search_queries": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Sota Search Queries",
+          "type": "array"
+        },
+        "subsection_title": {
+          "minLength": 3,
+          "title": "Subsection Title",
+          "type": "string"
+        }
+      },
+      "required": [
+        "cluster_id",
+        "subsection_title",
+        "methodology_cluster",
+        "sota_search_queries",
+        "limitation_hypothesis",
+        "limitation_search_queries",
+        "bridge_to_our_method"
+      ],
+      "title": "RelatedWorkCluster",
+      "type": "object"
+    },
+    "SectionPlan": {
+      "additionalProperties": false,
+      "properties": {
+        "citation_hints": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Citation Hints",
+          "type": "array"
+        },
+        "content_bullets": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Content Bullets",
+          "type": "array"
+        },
+        "required_figures": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Required Figures",
+          "type": "array"
+        },
+        "section_id": {
+          "minLength": 1,
+          "title": "Section Id",
+          "type": "string"
+        },
+        "section_title": {
+          "minLength": 2,
+          "title": "Section Title",
+          "type": "string"
+        },
+        "subsections": {
+          "items": {
+            "$ref": "#/$defs/SubsectionPlan"
+          },
+          "title": "Subsections",
+          "type": "array"
+        }
+      },
+      "required": [
+        "section_id",
+        "section_title"
+      ],
+      "title": "SectionPlan",
+      "type": "object"
+    },
+    "SubsectionPlan": {
+      "additionalProperties": false,
+      "properties": {
+        "citation_hints": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Citation Hints",
+          "type": "array"
+        },
+        "content_bullets": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Content Bullets",
+          "type": "array"
+        },
+        "required_figures": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Required Figures",
+          "type": "array"
+        },
+        "required_symbols": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Required Symbols",
+          "type": "array"
+        },
+        "subsection_id": {
+          "minLength": 2,
+          "title": "Subsection Id",
+          "type": "string"
+        },
+        "subsection_title": {
+          "minLength": 3,
+          "title": "Subsection Title",
+          "type": "string"
+        }
+      },
+      "required": [
+        "subsection_id",
+        "subsection_title",
+        "content_bullets"
+      ],
+      "title": "SubsectionPlan",
+      "type": "object"
+    },
+    "VisualSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "aspect_ratio": {
+          "default": "16:9",
+          "enum": [
+            "1:1",
+            "1:4",
+            "2:3",
+            "3:2",
+            "3:4",
+            "4:1",
+            "4:3",
+            "4:5",
+            "5:4",
+            "9:16",
+            "16:9",
+            "21:9"
+          ],
+          "title": "Aspect Ratio",
+          "type": "string"
+        },
+        "data_source": {
+          "enum": [
+            "idea.md",
+            "experimental_log.md",
+            "both",
+            "provided"
+          ],
+          "title": "Data Source",
+          "type": "string"
+        },
+        "figure_id": {
+          "pattern": "^fig_[a-z0-9_]{2,60}$",
+          "title": "Figure Id",
+          "type": "string"
+        },
+        "objective": {
+          "minLength": 10,
+          "title": "Objective",
+          "type": "string"
+        },
+        "title": {
+          "minLength": 3,
+          "title": "Title",
+          "type": "string"
+        },
+        "visual_kind": {
+          "enum": [
+            "matplotlib_plot",
+            "tikz_diagram",
+            "provided_asset"
+          ],
+          "title": "Visual Kind",
+          "type": "string"
+        }
+      },
+      "required": [
+        "figure_id",
+        "title",
+        "visual_kind",
+        "data_source",
+        "objective"
+      ],
+      "title": "VisualSpec",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "cutoff_date": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Cutoff Date"
+    },
+    "intro_related_work_plan": {
+      "$ref": "#/$defs/IntroRelatedWorkPlan"
+    },
+    "plotting_plan": {
+      "items": {
+        "$ref": "#/$defs/VisualSpec"
+      },
+      "title": "Plotting Plan",
+      "type": "array"
+    },
+    "section_plan": {
+      "items": {
+        "$ref": "#/$defs/SectionPlan"
+      },
+      "minItems": 3,
+      "title": "Section Plan",
+      "type": "array"
+    },
+    "target_venue": {
+      "minLength": 2,
+      "title": "Target Venue",
+      "type": "string"
+    },
+    "title_working": {
+      "minLength": 5,
+      "title": "Title Working",
+      "type": "string"
+    }
+  },
+  "required": [
+    "title_working",
+    "target_venue",
+    "intro_related_work_plan",
+    "section_plan"
+  ],
+  "title": "OutlineContract",
+  "type": "object"
+}

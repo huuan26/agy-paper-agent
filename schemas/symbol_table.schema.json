@@ -1,0 +1,77 @@
+{
+  "$defs": {
+    "SymbolEntry": {
+      "additionalProperties": false,
+      "properties": {
+        "aliases": {
+          "description": "Permitted macro aliases, if any.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Aliases",
+          "type": "array"
+        },
+        "defined_in_section": {
+          "description": "Section ID where first defined.",
+          "minLength": 1,
+          "title": "Defined In Section",
+          "type": "string"
+        },
+        "domain_or_shape": {
+          "description": "Set/space/tensor shape, e.g. R^{Nxd}.",
+          "minLength": 1,
+          "title": "Domain Or Shape",
+          "type": "string"
+        },
+        "meaning": {
+          "description": "Precise mathematical or domain meaning.",
+          "minLength": 3,
+          "title": "Meaning",
+          "type": "string"
+        },
+        "symbol": {
+          "description": "Canonical LaTeX math token, e.g. X_t.",
+          "minLength": 1,
+          "title": "Symbol",
+          "type": "string"
+        }
+      },
+      "required": [
+        "symbol",
+        "meaning",
+        "domain_or_shape",
+        "defined_in_section"
+      ],
+      "title": "SymbolEntry",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "bundle_id": {
+      "minLength": 1,
+      "title": "Bundle Id",
+      "type": "string"
+    },
+    "entries": {
+      "items": {
+        "$ref": "#/$defs/SymbolEntry"
+      },
+      "title": "Entries",
+      "type": "array"
+    },
+    "reserved_index_tokens": {
+      "description": "Local loop/index variables exempt from global redefinition errors.",
+      "items": {
+        "type": "string"
+      },
+      "title": "Reserved Index Tokens",
+      "type": "array"
+    }
+  },
+  "required": [
+    "bundle_id"
+  ],
+  "title": "SymbolTable",
+  "type": "object"
+}

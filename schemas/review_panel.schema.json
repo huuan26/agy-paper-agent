@@ -1,0 +1,189 @@
+{
+  "$defs": {
+    "DeterministicGateSuite": {
+      "additionalProperties": false,
+      "properties": {
+        "all_passed": {
+          "title": "All Passed",
+          "type": "boolean"
+        },
+        "gates": {
+          "items": {
+            "$ref": "#/$defs/GateResult"
+          },
+          "maxItems": 4,
+          "minItems": 4,
+          "title": "Gates",
+          "type": "array"
+        },
+        "target_artifact": {
+          "minLength": 1,
+          "title": "Target Artifact",
+          "type": "string"
+        }
+      },
+      "required": [
+        "target_artifact",
+        "gates",
+        "all_passed"
+      ],
+      "title": "DeterministicGateSuite",
+      "type": "object"
+    },
+    "GateResult": {
+      "additionalProperties": false,
+      "properties": {
+        "errors": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Errors",
+          "type": "array"
+        },
+        "gate": {
+          "enum": [
+            "numeric_fidelity",
+            "citation_integrity",
+            "latex_build",
+            "symbol_table"
+          ],
+          "title": "Gate",
+          "type": "string"
+        },
+        "metrics": {
+          "additionalProperties": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              }
+            ]
+          },
+          "title": "Metrics",
+          "type": "object"
+        },
+        "passed": {
+          "title": "Passed",
+          "type": "boolean"
+        },
+        "warnings": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Warnings",
+          "type": "array"
+        }
+      },
+      "required": [
+        "gate",
+        "passed"
+      ],
+      "title": "GateResult",
+      "type": "object"
+    },
+    "ReviewerCritique": {
+      "additionalProperties": false,
+      "properties": {
+        "blocking_issues": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Blocking Issues",
+          "type": "array"
+        },
+        "non_blocking_suggestions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Non Blocking Suggestions",
+          "type": "array"
+        },
+        "reviewer_role": {
+          "enum": [
+            "math_methodology",
+            "empirical_evidence",
+            "vlm_venue_layout"
+          ],
+          "title": "Reviewer Role",
+          "type": "string"
+        },
+        "score_1_to_10": {
+          "maximum": 10.0,
+          "minimum": 1.0,
+          "title": "Score 1 To 10",
+          "type": "number"
+        },
+        "strengths_to_preserve": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Strengths To Preserve",
+          "type": "array"
+        }
+      },
+      "required": [
+        "reviewer_role",
+        "score_1_to_10"
+      ],
+      "title": "ReviewerCritique",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "addressed_issues": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Addressed Issues",
+      "type": "array"
+    },
+    "gates": {
+      "$ref": "#/$defs/DeterministicGateSuite"
+    },
+    "hitl_notes": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Hitl Notes",
+      "type": "array"
+    },
+    "iteration": {
+      "maximum": 10,
+      "minimum": 0,
+      "title": "Iteration",
+      "type": "integer"
+    },
+    "outcome": {
+      "enum": [
+        "accept",
+        "rollback",
+        "await_hitl"
+      ],
+      "title": "Outcome",
+      "type": "string"
+    },
+    "reviews": {
+      "items": {
+        "$ref": "#/$defs/ReviewerCritique"
+      },
+      "maxItems": 3,
+      "minItems": 3,
+      "title": "Reviews",
+      "type": "array"
+    }
+  },
+  "required": [
+    "iteration",
+    "gates",
+    "reviews",
+    "outcome"
+  ],
+  "title": "RevisionDecision",
+  "type": "object"
+}

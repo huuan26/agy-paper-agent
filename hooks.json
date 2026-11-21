@@ -1,0 +1,17 @@
+{
+  "paper-deterministic-guardrails": {
+    "enabled": false,
+    "PostToolUse": [
+      {
+        "matcher": "write_file|edit_file",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python -m agy_paper_agent.hooks_entry",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+}

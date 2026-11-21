@@ -1,0 +1,197 @@
+{
+  "$defs": {
+    "ExternalIds": {
+      "additionalProperties": false,
+      "properties": {
+        "arxiv_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Arxiv Id"
+        },
+        "doi": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Doi"
+        },
+        "openalex_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Openalex Id"
+        },
+        "s2_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "S2 Id"
+        }
+      },
+      "title": "ExternalIds",
+      "type": "object"
+    },
+    "VerifiedPaper": {
+      "additionalProperties": false,
+      "properties": {
+        "abstract": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Abstract"
+        },
+        "authors": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Authors",
+          "type": "array"
+        },
+        "bibtex_entry": {
+          "minLength": 20,
+          "title": "Bibtex Entry",
+          "type": "string"
+        },
+        "cite_key": {
+          "pattern": "^[A-Za-z][A-Za-z0-9_:-]{1,63}$",
+          "title": "Cite Key",
+          "type": "string"
+        },
+        "external_ids": {
+          "$ref": "#/$defs/ExternalIds"
+        },
+        "is_concurrent_only": {
+          "default": false,
+          "title": "Is Concurrent Only",
+          "type": "boolean"
+        },
+        "priority": {
+          "default": "P1",
+          "enum": [
+            "P0",
+            "P1"
+          ],
+          "title": "Priority",
+          "type": "string"
+        },
+        "publication_date": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Publication Date"
+        },
+        "seed_trusted": {
+          "default": false,
+          "title": "Seed Trusted",
+          "type": "boolean"
+        },
+        "title": {
+          "minLength": 3,
+          "title": "Title",
+          "type": "string"
+        },
+        "venue": {
+          "minLength": 1,
+          "title": "Venue",
+          "type": "string"
+        },
+        "verified_by": {
+          "enum": [
+            "seed_bib",
+            "openalex",
+            "crossref",
+            "arxiv",
+            "semantic_scholar"
+          ],
+          "title": "Verified By",
+          "type": "string"
+        },
+        "year": {
+          "maximum": 2100,
+          "minimum": 1800,
+          "title": "Year",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "cite_key",
+        "title",
+        "authors",
+        "year",
+        "venue",
+        "verified_by",
+        "bibtex_entry"
+      ],
+      "title": "VerifiedPaper",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "cutoff_date": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Cutoff Date"
+    },
+    "min_utilization_ratio": {
+      "default": 0.85,
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "title": "Min Utilization Ratio",
+      "type": "number"
+    },
+    "papers": {
+      "items": {
+        "$ref": "#/$defs/VerifiedPaper"
+      },
+      "title": "Papers",
+      "type": "array"
+    }
+  },
+  "title": "CitationRegistry",
+  "type": "object"
+}
