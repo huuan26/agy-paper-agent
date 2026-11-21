@@ -1,0 +1,49 @@
+{
+  "name": "paper-coauthor-pipeline",
+  "description": "Stage-gated Interactive Co-Author workflow for scientific manuscript authoring on AGY.",
+  "entry": "paper_pipeline.py",
+  "argsSchema": {
+    "type": "object",
+    "required": ["bundle_dir"],
+    "properties": {
+      "bundle_dir": {
+        "type": "string",
+        "description": "Absolute path to the target paper_bundle directory."
+      },
+      "raw_workspace_dir": {
+        "type": "string",
+        "description": "Optional path to raw research workspace for Stage 0 ingestion."
+      },
+      "stage": {
+        "type": "string",
+        "enum": [
+          "stage0_ingest",
+          "stage1_outline",
+          "stage2_literature",
+          "stage3_visuals",
+          "stage4_sections",
+          "stage5_refinement",
+          "all"
+        ],
+        "default": "stage1_outline"
+      },
+      "auto_approve": {
+        "type": "boolean",
+        "default": false
+      },
+      "force_ingest": {
+        "type": "boolean",
+        "default": false
+      },
+      "cutoff_date": {
+        "type": "string",
+        "description": "Optional YYYY-MM or YYYY-MM-DD literature cutoff boundary."
+      },
+      "hitl_notes": {
+        "type": "array",
+        "items": { "type": "string" },
+        "default": []
+      }
+    }
+  }
+}

@@ -1,5 +1,11 @@
-"""Core data contracts, deterministic verification gates, and external tools."""
+"""Core data contracts, bundle lifecycle, deterministic gates, and external tools."""
 
+from agy_paper_agent.bundle import (
+    BundleStatus,
+    init_paper_bundle,
+    inspect_bundle,
+    verify_paper_bundle,
+)
 from agy_paper_agent.contracts import (
     SCHEMA_REGISTRY,
     CitationRegistry,
@@ -42,6 +48,7 @@ from agy_paper_agent.verifiers import (
 
 __all__ = [
     "SCHEMA_REGISTRY",
+    "BundleStatus",
     "CandidateQuery",
     "CitationRegistry",
     "CitationSource",
@@ -68,10 +75,13 @@ __all__ = [
     "audit_plot_script_ast",
     "compile_tikz_diagram",
     "export_all_schemas",
+    "init_paper_bundle",
+    "inspect_bundle",
     "run_all_gates",
     "run_matplotlib_script",
     "verify_citation_integrity",
     "verify_latex_build",
     "verify_numeric_fidelity",
+    "verify_paper_bundle",
     "verify_symbol_consistency",
 ]
