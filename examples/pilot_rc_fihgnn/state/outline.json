@@ -1,0 +1,119 @@
+{
+  "title_working": "Phase 0 Mathematical and Data Foundations for Regime-Conditioned Finance-Informed Hypergraph Learning in Intraday Index Futures",
+  "target_venue": "arXiv Preprint (Quantitative Finance & Machine Learning)",
+  "cutoff_date": "2026-06",
+  "plotting_plan": [
+    {
+      "figure_id": "fig_rc_fihgnn_pipeline",
+      "title": "Synchronized 5m Market Hypergraph and Admissibility Pipeline",
+      "visual_kind": "tikz_diagram",
+      "data_source": "idea.md",
+      "objective": "Illustrate synchronized VN30F1M, VN30INDEX, and 30-constituent 5m order-flow channels feeding dynamic hypergraph incidence H_n, normalized Laplacian Delta_n, and hard admissibility projection.",
+      "aspect_ratio": "16:9"
+    },
+    {
+      "figure_id": "fig_phase0_convergence",
+      "title": "Dyadic Hedging Discrepancy Convergence and Multi-Horizon Variance Ratios",
+      "visual_kind": "matplotlib_plot",
+      "data_source": "experimental_log.md",
+      "objective": "Two-panel empirical verification plot showing (a) 12-level dyadic O(Delta) hedging error decay with slope 0.999922 and (b) 400k Monte Carlo vs analytic variance ratios across k in {1, 3, 12}.",
+      "aspect_ratio": "16:9"
+    }
+  ],
+  "intro_related_work_plan": {
+    "hook_hypothesis": "Intraday index futures dynamics emerge from higher-order interactions among futures, cash index, constituent baskets, and order-flow imbalance.",
+    "problem_gap_hypothesis": "Pairwise financial graphs miss multi-entity arbitrage couplings, while unconstrained neural forecasters violate cost-of-carry identities and suffer floating-point cancellation at 5m steps.",
+    "macro_intro_queries": [
+      "intraday lead-lag futures spot index markets",
+      "hypergraph neural networks survey"
+    ],
+    "micro_rw_clusters": [
+      {
+        "cluster_id": "rw_hypergraph",
+        "subsection_title": "2.1 Hypergraph Learning in Financial Time Series",
+        "methodology_cluster": "Static and spatial-temporal hypergraph neural networks",
+        "sota_search_queries": ["hypergraph neural networks stock forecasting"],
+        "limitation_hypothesis": "Lack explicit futures-spot cost-of-carry and discrete hedging constraints.",
+        "limitation_search_queries": ["hypergraph factor model stock return limitation"],
+        "bridge_to_our_method": "Embeds normalized hypergraph propagation within exact cost-of-carry and admissibility bounds."
+      },
+      {
+        "cluster_id": "rw_finn",
+        "subsection_title": "2.2 Physics- and Finance-Informed Neural Architectures",
+        "methodology_cluster": "PDE- and no-arbitrage-constrained neural operators",
+        "sota_search_queries": ["physics-informed neural networks finance option pricing"],
+        "limitation_hypothesis": "Designed for single-asset or option PDEs without cross-sectional constituent hypergraphs.",
+        "limitation_search_queries": ["finance-informed neural network portfolio hedging"],
+        "bridge_to_our_method": "Adapts finance-informed constraints to discrete-time intraday futures basis and 30-stock basket dynamics."
+      }
+    ]
+  },
+  "section_plan": [
+    {
+      "section_id": "01_introduction",
+      "section_title": "Introduction",
+      "content_bullets": [
+        "Motivate higher-order intraday coupling across VN30F1M, VN30INDEX, and 30 constituent equities.",
+        "Summarize Phase 0 contributions and Gate G0 synchronization audit."
+      ]
+    },
+    {
+      "section_id": "02_related_work",
+      "section_title": "Related Work",
+      "subsections": [
+        {
+          "subsection_id": "2.1",
+          "subsection_title": "Hypergraph Learning in Financial Time Series",
+          "content_bullets": ["Contrast pairwise graphs with hypergraph factor models."],
+          "citation_hints": ["Kim2024HNNSurvey", "Duan2025FactorGCL", "Qiu2025Hermes"]
+        },
+        {
+          "subsection_id": "2.2",
+          "subsection_title": "Finance-Informed and No-Arbitrage Neural Models",
+          "content_bullets": ["Contrast option-replication FINNs with futures cost-of-carry constraints."],
+          "citation_hints": ["Aboussalah2024FINN", "MultiMarketLeadLag2023"]
+        }
+      ]
+    },
+    {
+      "section_id": "03_methodology",
+      "section_title": "Phase 0 Mathematical Framework",
+      "subsections": [
+        {
+          "subsection_id": "3.1",
+          "subsection_title": "Intraday Cost-of-Carry Factorization and Discrete Hedging",
+          "content_bullets": ["Formalize affine basis factorization, O(Delta) hedging discrepancy, and expm1 stability."]
+        },
+        {
+          "subsection_id": "3.2",
+          "subsection_title": "Dynamic Market Hypergraph Spectrum and Admissibility",
+          "content_bullets": ["Define H_n, S_n, and Laplacian Delta_n in [0, 1] with hard admissibility projection."],
+          "required_symbols": ["\\mathcal{H}_n", "\\mathbf{H}_n", "\\mathbf{S}_n", "\\boldsymbol{\\Delta}_n"],
+          "required_figures": ["fig_rc_fihgnn_pipeline"]
+        }
+      ]
+    },
+    {
+      "section_id": "04_experiments",
+      "section_title": "Empirical Audit and Numerical Verification",
+      "subsections": [
+        {
+          "subsection_id": "4.1",
+          "subsection_title": "Gate G0 Synchronized 5-Minute Market Audit",
+          "content_bullets": ["Report 10-channel coverage across VN30F1M (74,256 bars), VN30INDEX (50,761 bars), and 30 stocks."]
+        },
+        {
+          "subsection_id": "4.2",
+          "subsection_title": "Analytical and Monte Carlo Verification",
+          "content_bullets": ["Present dyadic convergence (0.999922), 400k Monte Carlo Lemma 3 table, expm1 stability, and spectral checks."],
+          "required_figures": ["fig_phase0_convergence"]
+        }
+      ]
+    },
+    {
+      "section_id": "05_conclusion",
+      "section_title": "Conclusion",
+      "content_bullets": ["Summarize verified Phase 0 guarantees and readiness for multi-market training."]
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+\section{Related Work}
+\label{sec:related}
+
+\subsection{Hypergraph Learning in Financial Time Series}
+\label{sec:rw_hypergraph}
+
+Hypergraph neural networks generalize spectral graph convolutions from dyadic edges to arbitrary-cardinality hyperedges via incidence-matrix normalization \citep{feng2019hypergraph,Kim2024HNNSurvey}. Comprehensive surveys of hypergraph mining and deep hypergraph architectures document strong gains whenever group interactions dominate pairwise links \citep{Lee2025HypergraphMining}. In equity forecasting, \citet{Duan2025FactorGCL} introduce hypergraph factor models with temporal residual contrastive learning, while \citet{Qiu2025Hermes} propose multi-scale spatial-temporal hypergraphs for stock return prediction. However, existing financial hypergraph architectures focus on unconstrained equity return forecasting and do not enforce futures-spot cost-of-carry parity, discrete hedging bias bounds, or hard admissibility projection.
+
+\subsection{Finance-Informed and No-Arbitrage Neural Models}
+\label{sec:rw_finn}
+
+Physics-informed neural networks embed differential and conservation laws into neural training objectives \citep{raissi2019physics}. Extending this principle to quantitative finance, \citet{Aboussalah2024FINN} formulate finance-informed neural networks to respect option-pricing no-arbitrage geometry. In index futures markets, empirical microstructure studies confirm asymmetric intraday lead-lag propagation across spot, futures, and derivatives legs \citep{MultiMarketLeadLag2023}, yet option-replication PDEs do not directly govern discrete-time futures basis mean reversion or constituent basket hedging. Our Phase~0 formulation bridges hypergraph message passing with exact discrete-time futures cost-of-carry factorization and numerically stable transition kernels.

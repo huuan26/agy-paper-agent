@@ -1,0 +1,209 @@
+{
+  "cutoff_date": "2026-06",
+  "min_utilization_ratio": 0.85,
+  "papers": [
+    {
+      "cite_key": "Aboussalah2024FINN",
+      "title": "Finance-Informed Neural Network: Learning the Geometry of Option Pricing",
+      "authors": [
+        "Amine M. Aboussalah",
+        "Xuanze Li",
+        "Cheng Chi",
+        "Raj Patel"
+      ],
+      "year": 2024,
+      "publication_date": null,
+      "venue": "arXiv preprint",
+      "abstract": null,
+      "priority": "P0",
+      "verified_by": "seed_bib",
+      "seed_trusted": true,
+      "is_concurrent_only": false,
+      "external_ids": {
+        "doi": null,
+        "openalex_id": null,
+        "arxiv_id": "2412.12213",
+        "s2_id": null
+      },
+      "bibtex_entry": "@article{Aboussalah2024FINN,\n  title = {Finance-Informed Neural Network: Learning the Geometry of Option Pricing},\n  author = {Amine M. Aboussalah and Xuanze Li and Cheng Chi and Raj Patel},\n  journal = {arXiv preprint},\n  year = {2024},\n  eprint = {2412.12213},\n}"
+    },
+    {
+      "cite_key": "Kim2024HNNSurvey",
+      "title": "A Survey on Hypergraph Neural Networks: An In-Depth and Step-By-Step Guide",
+      "authors": [
+        "Kim, Sunwoo",
+        "Lee, Soo Yong",
+        "Gao, Yue",
+        "Antelmi, Alessia",
+        "Polato, Mirko",
+        "Shin, Kijung"
+      ],
+      "year": 2024,
+      "publication_date": null,
+      "venue": "Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+      "abstract": null,
+      "priority": "P0",
+      "verified_by": "seed_bib",
+      "seed_trusted": true,
+      "is_concurrent_only": false,
+      "external_ids": {
+        "doi": "10.1145/3637528.3671457",
+        "openalex_id": null,
+        "arxiv_id": null,
+        "s2_id": null
+      },
+      "bibtex_entry": "@article{Kim2024HNNSurvey,\n  title = {A Survey on Hypergraph Neural Networks: An In-Depth and Step-By-Step Guide},\n  author = {Kim, Sunwoo and Lee, Soo Yong and Gao, Yue and Antelmi, Alessia and Polato, Mirko and Shin, Kijung},\n  journal = {Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining},\n  year = {2024},\n  doi = {10.1145/3637528.3671457},\n}"
+    },
+    {
+      "cite_key": "Lee2025HypergraphMining",
+      "title": "A Survey on Hypergraph Mining: Patterns, Tools, and Generators",
+      "authors": [
+        "Lee, Geon",
+        "Bu, Fanchen",
+        "Eliassi-Rad, Tina",
+        "Shin, Kijung"
+      ],
+      "year": 2025,
+      "publication_date": null,
+      "venue": "ACM Computing Surveys",
+      "abstract": null,
+      "priority": "P0",
+      "verified_by": "seed_bib",
+      "seed_trusted": true,
+      "is_concurrent_only": false,
+      "external_ids": {
+        "doi": "10.1145/3719002",
+        "openalex_id": null,
+        "arxiv_id": null,
+        "s2_id": null
+      },
+      "bibtex_entry": "@article{Lee2025HypergraphMining,\n  title = {A Survey on Hypergraph Mining: Patterns, Tools, and Generators},\n  author = {Lee, Geon and Bu, Fanchen and Eliassi-Rad, Tina and Shin, Kijung},\n  journal = {ACM Computing Surveys},\n  year = {2025},\n  doi = {10.1145/3719002},\n}"
+    },
+    {
+      "cite_key": "Duan2025FactorGCL",
+      "title": "FactorGCL: A Hypergraph-Based Factor Model with Temporal Residual Contrastive Learning for Stock Returns Prediction",
+      "authors": [
+        "Duan, Yitong",
+        "Wang, Weiran",
+        "Li, Jian"
+      ],
+      "year": 2025,
+      "publication_date": null,
+      "venue": "Proceedings of the AAAI Conference on Artificial Intelligence",
+      "abstract": null,
+      "priority": "P0",
+      "verified_by": "seed_bib",
+      "seed_trusted": true,
+      "is_concurrent_only": false,
+      "external_ids": {
+        "doi": "10.1609/aaai.v39i1.31993",
+        "openalex_id": null,
+        "arxiv_id": null,
+        "s2_id": null
+      },
+      "bibtex_entry": "@article{Duan2025FactorGCL,\n  title = {FactorGCL: A Hypergraph-Based Factor Model with Temporal Residual Contrastive Learning for Stock Returns Prediction},\n  author = {Duan, Yitong and Wang, Weiran and Li, Jian},\n  journal = {Proceedings of the AAAI Conference on Artificial Intelligence},\n  year = {2025},\n  doi = {10.1609/aaai.v39i1.31993},\n}"
+    },
+    {
+      "cite_key": "MultiMarketLeadLag2023",
+      "title": "A Multi-market Comparison of the Intraday Lead-Lag Relations Among Stock Index-Based Spot, Futures and Options",
+      "authors": [
+        "Ren, Fei",
+        "Cai, Mei-Ling",
+        "Li, Sai-Ping",
+        "Xiong, Xiong",
+        "Chen, Zhang-HangJian"
+      ],
+      "year": 2023,
+      "publication_date": null,
+      "venue": "Computational Economics",
+      "abstract": null,
+      "priority": "P0",
+      "verified_by": "seed_bib",
+      "seed_trusted": true,
+      "is_concurrent_only": false,
+      "external_ids": {
+        "doi": "10.1007/s10614-022-10268-0",
+        "openalex_id": null,
+        "arxiv_id": null,
+        "s2_id": null
+      },
+      "bibtex_entry": "@article{MultiMarketLeadLag2023,\n  title = {A Multi-market Comparison of the Intraday Lead-Lag Relations Among Stock Index-Based Spot, Futures and Options},\n  author = {Ren, Fei and Cai, Mei-Ling and Li, Sai-Ping and Xiong, Xiong and Chen, Zhang-HangJian},\n  journal = {Computational Economics},\n  year = {2023},\n  doi = {10.1007/s10614-022-10268-0},\n}"
+    },
+    {
+      "cite_key": "Qiu2025Hermes",
+      "title": "Hermes: A Multi-Scale Spatial-Temporal Hypergraph Network for Stock Time Series Forecasting",
+      "authors": [
+        "Xiangfei Qiu",
+        "Liu Yang",
+        "Xiangyu Xu",
+        "Hanyin Cheng",
+        "Jilin Hu"
+      ],
+      "year": 2025,
+      "publication_date": null,
+      "venue": "arXiv preprint",
+      "abstract": null,
+      "priority": "P0",
+      "verified_by": "seed_bib",
+      "seed_trusted": true,
+      "is_concurrent_only": false,
+      "external_ids": {
+        "doi": null,
+        "openalex_id": null,
+        "arxiv_id": "2509.23668",
+        "s2_id": null
+      },
+      "bibtex_entry": "@article{Qiu2025Hermes,\n  title = {Hermes: A Multi-Scale Spatial-Temporal Hypergraph Network for Stock Time Series Forecasting},\n  author = {Xiangfei Qiu and Liu Yang and Xiangyu Xu and Hanyin Cheng and Jilin Hu},\n  journal = {arXiv preprint},\n  year = {2025},\n  eprint = {2509.23668},\n}"
+    },
+    {
+      "cite_key": "raissi2019physics",
+      "title": "Physics-informed neural networks: A deep learning framework for solving forward and inverse problems involving nonlinear partial differential equations",
+      "authors": [
+        "M. Raissi",
+        "P. Perdikaris",
+        "G.E. Karniadakis"
+      ],
+      "year": 2019,
+      "publication_date": null,
+      "venue": "Journal of Computational Physics",
+      "abstract": null,
+      "priority": "P0",
+      "verified_by": "crossref",
+      "seed_trusted": false,
+      "is_concurrent_only": false,
+      "external_ids": {
+        "doi": "10.1016/j.jcp.2018.10.045",
+        "openalex_id": null,
+        "arxiv_id": null,
+        "s2_id": null
+      },
+      "bibtex_entry": "@article{raissi2019physics,\n  title = {Physics-informed neural networks: A deep learning framework for solving forward and inverse problems involving nonlinear partial differential equations},\n  author = {M. Raissi and P. Perdikaris and G.E. Karniadakis},\n  journal = {Journal of Computational Physics},\n  year = {2019},\n  doi = {10.1016/j.jcp.2018.10.045},\n}"
+    },
+    {
+      "cite_key": "feng2019hypergraph",
+      "title": "Hypergraph Neural Networks",
+      "authors": [
+        "Yifan Feng",
+        "Haoxuan You",
+        "Zizhao Zhang",
+        "Rongrong Ji",
+        "Yue Gao"
+      ],
+      "year": 2019,
+      "publication_date": "2019-07-17",
+      "venue": "Proceedings of the AAAI Conference on Artificial Intelligence",
+      "abstract": "In this paper, we present a hypergraph neural networks (HGNN) framework for data representation learning, which can encode high-order data correlation in a hypergraph structure. Confronting the challenges of learning representation for complex data in real practice, we propose to incorporate such data structure in a hypergraph, which is more flexible on data modeling, especially when dealing with complex data. In this method, a hyperedge convolution operation is designed to handle the data correlation during representation learning. In this way, traditional hypergraph learning procedure can be conducted using hyperedge convolution operations efficiently. HGNN is able to learn the hidden layer representation considering the high-order data structure, which is a general framework considering the complex data correlations. We have conducted experiments on citation network classification and visual object recognition tasks and compared HGNN with graph convolutional networks and other traditional methods. Experimental results demonstrate that the proposed HGNN method outperforms recent state-of-theart methods. We can also reveal from the results that the proposed HGNN is superior when dealing with multi-modal data compared with existing methods.",
+      "priority": "P0",
+      "verified_by": "crossref",
+      "seed_trusted": false,
+      "is_concurrent_only": false,
+      "external_ids": {
+        "doi": "10.1609/aaai.v33i01.33013558",
+        "openalex_id": null,
+        "arxiv_id": null,
+        "s2_id": null
+      },
+      "bibtex_entry": "@article{feng2019hypergraph,\n  title = {Hypergraph Neural Networks},\n  author = {Yifan Feng and Haoxuan You and Zizhao Zhang and Rongrong Ji and Yue Gao},\n  journal = {Proceedings of the AAAI Conference on Artificial Intelligence},\n  year = {2019},\n  doi = {10.1609/aaai.v33i01.33013558},\n}"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+[
+  {
+    "figure_id": "fig_rc_fihgnn_pipeline",
+    "visual_kind": "tikz_diagram",
+    "pdf": "figures/rendered/fig_rc_fihgnn_pipeline.pdf",
+    "png": "figures/rendered/fig_rc_fihgnn_pipeline.png",
+    "caption": "Phase 0 RC-FIHGNN data-to-admissibility pipeline mapping synchronized 5-minute futures, index, and 30-stock order-flow channels through dynamic hypergraph incidence, normalized spectral propagation, and hard economic admissibility projection."
+  },
+  {
+    "figure_id": "fig_phase0_convergence",
+    "visual_kind": "matplotlib_plot",
+    "pdf": "figures/rendered/fig_phase0_convergence.pdf",
+    "png": "figures/rendered/fig_phase0_convergence.png",
+    "caption": "Empirical verification of Phase 0 analytical bounds: (a) 12-level dyadic refinement confirming first-order O(Delta) discrete hedging convergence with empirical slope 0.999922, and (b) 400,000-path Monte Carlo agreement with closed-form multi-horizon variance ratios across k in {1, 3, 12}."
+  }
+]

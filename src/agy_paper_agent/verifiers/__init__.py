@@ -34,6 +34,7 @@ def run_all_gates(
     max_pages: int | None = None,
     enforce_citation_utilization: bool = False,
     allow_intro_symbol_preview: bool = False,
+    output_pdf_path: Path | None = None,
 ) -> DeterministicGateSuite:
     """Execute all 4 deterministic gates and assemble a validated DeterministicGateSuite."""
     tex_files = dict(ordered_sections)
@@ -54,6 +55,7 @@ def run_all_gates(
         tex_filename=tex_filename,
         engine=latex_engine,
         max_pages=max_pages,
+        output_pdf_path=output_pdf_path,
     )
     g4 = verify_symbol_consistency(
         symbol_table=symbol_table,

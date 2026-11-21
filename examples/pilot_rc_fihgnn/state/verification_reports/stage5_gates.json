@@ -1,0 +1,49 @@
+{
+  "target_artifact": "manuscript/main.tex",
+  "gates": [
+    {
+      "gate": "numeric_fidelity",
+      "passed": true,
+      "errors": [],
+      "warnings": [],
+      "metrics": {
+        "source_numbers_indexed": 158,
+        "target_numbers_checked": 105
+      }
+    },
+    {
+      "gate": "citation_integrity",
+      "passed": true,
+      "errors": [],
+      "warnings": [],
+      "metrics": {
+        "cited_keys_count": 8,
+        "bib_entries_count": 8,
+        "registry_papers_count": 8,
+        "pool_utilization": 1.0
+      }
+    },
+    {
+      "gate": "latex_build",
+      "passed": true,
+      "errors": [],
+      "warnings": [],
+      "metrics": {
+        "page_count": 5,
+        "max_overfull_pt": 0.0
+      }
+    },
+    {
+      "gate": "symbol_table",
+      "passed": true,
+      "errors": [],
+      "warnings": [],
+      "metrics": {
+        "registered_symbols": 8,
+        "sections_audited": 5,
+        "unregistered_recurring_symbols": 0
+      }
+    }
+  ],
+  "all_passed": true
+}

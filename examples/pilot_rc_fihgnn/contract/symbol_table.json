@@ -1,0 +1,62 @@
+{
+  "bundle_id": "rc_fihgnn_phase0_pilot",
+  "entries": [
+    {
+      "symbol": "\\mathcal{V}",
+      "meaning": "Market node universe (futures, spot index, and 30 active constituent equities)",
+      "domain_or_shape": "|\\mathcal{V}| = M",
+      "defined_in_section": "03_methodology",
+      "aliases": []
+    },
+    {
+      "symbol": "\\mathcal{H}_n",
+      "meaning": "Time-indexed weighted market hypergraph at intraday 5m bar n",
+      "domain_or_shape": "(\\mathcal{V}, \\mathcal{E}_n, \\mathbf{W}_n)",
+      "defined_in_section": "03_methodology",
+      "aliases": []
+    },
+    {
+      "symbol": "\\mathbf{H}_n",
+      "meaning": "Hypergraph incidence matrix across M nodes and E_n hyperedges",
+      "domain_or_shape": "\\mathbb{R}^{M \\times E_n}",
+      "defined_in_section": "03_methodology",
+      "aliases": []
+    },
+    {
+      "symbol": "\\mathbf{W}_n",
+      "meaning": "Diagonal positive hyperedge weight matrix at bar n",
+      "domain_or_shape": "\\mathbb{R}^{E_n \\times E_n}",
+      "defined_in_section": "03_methodology",
+      "aliases": []
+    },
+    {
+      "symbol": "\\mathbf{D}_{v,n}",
+      "meaning": "Diagonal vertex degree matrix of hypergraph H_n",
+      "domain_or_shape": "\\mathbb{R}^{M \\times M}",
+      "defined_in_section": "03_methodology",
+      "aliases": []
+    },
+    {
+      "symbol": "\\mathbf{D}_{e,n}",
+      "meaning": "Diagonal hyperedge degree matrix of hypergraph H_n",
+      "domain_or_shape": "\\mathbb{R}^{E_n \\times E_n}",
+      "defined_in_section": "03_methodology",
+      "aliases": []
+    },
+    {
+      "symbol": "\\mathbf{S}_n",
+      "meaning": "Symmetric normalized hypergraph propagation operator",
+      "domain_or_shape": "\\mathbb{R}^{M \\times M}",
+      "defined_in_section": "03_methodology",
+      "aliases": []
+    },
+    {
+      "symbol": "\\boldsymbol{\\Delta}_n",
+      "meaning": "Normalized hypergraph Laplacian I_M - S_n with spectrum in [0, 1]",
+      "domain_or_shape": "\\mathbb{R}^{M \\times M}",
+      "defined_in_section": "03_methodology",
+      "aliases": []
+    }
+  ],
+  "reserved_index_tokens": ["i", "j", "k", "m", "n", "p", "t", "x"]
+}

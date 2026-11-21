@@ -1,0 +1,16 @@
+{
+  "source_workspace": "C:/Users/ADMIN/Documents/Paper_Research/NCKH",
+  "read_only_verified": true,
+  "mappings": {
+    "core_series_5m.VN30F1M": "phase0/data_audit_report.json#L6-L47",
+    "core_series_5m.VN30INDEX": "phase0/data_audit_report.json#L48-L88",
+    "constituent_stocks_5m.window_active_counts": "phase0/data_audit_report.json#L91-L132",
+    "proposition_1": "phase0/math_verification_report.json#L2-L6",
+    "proposition_2": "phase0/math_verification_report.json#L7-L25",
+    "basis_decomposition_bound": "phase0/math_verification_report.json#L26-L30",
+    "lemma_3": "phase0/math_verification_report.json#L31-L99",
+    "ou_transition_and_expm1": "phase0/math_verification_report.json#L100-L104",
+    "hypergraph_and_admissibility": "phase0/math_verification_report.json#L105-L118",
+    "nomenclature_and_grid": "phase0/phase0_mathematical_foundations.tex#L102-L160"
+  }
+}

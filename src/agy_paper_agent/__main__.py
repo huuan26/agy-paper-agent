@@ -55,6 +55,7 @@ def _build_parser() -> argparse.ArgumentParser:
     p_gate.add_argument("--max-pages", type=int, default=None)
     p_gate.add_argument("--enforce-utilization", action="store_true")
     p_gate.add_argument("--report-out", type=Path, default=None)
+    p_gate.add_argument("--output-pdf", type=Path, default=None)
 
     return parser
 
@@ -142,6 +143,7 @@ def main(argv: list[str] | None = None) -> int:
             max_pages=args.max_pages,
             enforce_citation_utilization=args.enforce_utilization,
             report_out=args.report_out,
+            output_pdf_path=args.output_pdf,
         )
         sys.stdout.write(json.dumps(suite.model_dump(), indent=2) + "\n")
         return 0 if suite.all_passed else 1

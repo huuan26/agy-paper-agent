@@ -1,0 +1,91 @@
+{
+  "iteration": 1,
+  "gates": {
+    "target_artifact": "manuscript/main.tex",
+    "gates": [
+      {
+        "gate": "numeric_fidelity",
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "metrics": {
+          "source_numbers_indexed": 158,
+          "target_numbers_checked": 105
+        }
+      },
+      {
+        "gate": "citation_integrity",
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "metrics": {
+          "cited_keys_count": 8,
+          "bib_entries_count": 8,
+          "registry_papers_count": 8,
+          "pool_utilization": 1.0
+        }
+      },
+      {
+        "gate": "latex_build",
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "metrics": {
+          "page_count": 5,
+          "max_overfull_pt": 0.0
+        }
+      },
+      {
+        "gate": "symbol_table",
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "metrics": {
+          "registered_symbols": 8,
+          "sections_audited": 5,
+          "unregistered_recurring_symbols": 0
+        }
+      }
+    ],
+    "all_passed": true
+  },
+  "reviews": [
+    {
+      "reviewer_role": "math_methodology",
+      "score_1_to_10": 8.8,
+      "blocking_issues": [],
+      "non_blocking_suggestions": [
+        "Registered full vertex and hyperedge degree matrices in symbol_table.json."
+      ],
+      "strengths_to_preserve": [
+        "Exact congruence justification for Laplacian spectrum in [0, 1] and expm1 stability."
+      ]
+    },
+    {
+      "reviewer_role": "empirical_evidence",
+      "score_1_to_10": 9.0,
+      "blocking_issues": [],
+      "non_blocking_suggestions": [],
+      "strengths_to_preserve": [
+        "100% numeric match across 105 checked values against Gate G0 audit and 400k Monte Carlo logs."
+      ]
+    },
+    {
+      "reviewer_role": "vlm_venue_layout",
+      "score_1_to_10": 9.2,
+      "blocking_issues": [],
+      "non_blocking_suggestions": [],
+      "strengths_to_preserve": [
+        "Resolved initial 24.24pt Table 1 header overflow down to 0.0pt max_overfull_pt; crisp vector figures."
+      ]
+    }
+  ],
+  "hitl_notes": [
+    "Pilot option 3A: read-only slice from NCKH Phase 0."
+  ],
+  "addressed_issues": [
+    "Shortened Table 1 Coverage column header to eliminate 24.24pt Overfull hbox.",
+    "Registered all 8 core hypergraph and universe symbols in contract/symbol_table.json."
+  ],
+  "outcome": "await_hitl"
+}

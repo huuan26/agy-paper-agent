@@ -111,6 +111,7 @@ def verify_paper_bundle(
     enforce_citation_utilization: bool = False,
     allow_intro_symbol_preview: bool = False,
     report_out: Path | None = None,
+    output_pdf_path: Path | None = None,
 ) -> DeterministicGateSuite:
     """Run all 4 deterministic gates across an initialized `paper_bundle/`."""
     exp_path = bundle_dir / "contract" / "experimental_log.md"
@@ -154,6 +155,7 @@ def verify_paper_bundle(
         max_pages=max_pages,
         enforce_citation_utilization=enforce_citation_utilization,
         allow_intro_symbol_preview=allow_intro_symbol_preview,
+        output_pdf_path=output_pdf_path,
     )
 
     if report_out is not None:

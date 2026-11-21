@@ -14,8 +14,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from agy_paper_agent.contracts import CitationRegistry, SymbolTable
-from agy_paper_agent.verifiers import run_all_gates
+from agy_paper_agent.bundle import verify_paper_bundle
 
 
 def _find_active_paper_bundle(payload: dict[str, Any]) -> Path | None:
@@ -72,29 +71,7 @@ def handle_hook_payload(payload: dict[str, Any]) -> dict[str, Any]:
             return {"decision": "allow"}
 
         try:
-            exp_log = (bundle_dir / "contract" / "experimental_log.md").read_text(encoding="utf-8")
-            idea_path = bundle_dir / "contract" / "idea.md"
-            idea_txt = idea_path.read_text(encoding="utf-8") if idea_path.is_file() else ""
-            sym_table = SymbolTable.model_validate_json(
-                (bundle_dir / "contract" / "symbol_table.json").read_text(encoding="utf-8")
-            )
-            cit_reg = CitationRegistry.model_validate_json(
-                (bundle_dir / "state" / "citation_registry.json").read_text(encoding="utf-8")
-            )
-            bib_path = bundle_dir / "manuscript" / "references.bib"
-            bib_txt = bib_path.read_text(encoding="utf-8") if bib_path.is_file() else ""
-            main_tex = (bundle_dir / "manuscript" / "main.tex").read_text(encoding="utf-8")
-
-            suite = run_all_gates(
-                target_artifact="manuscript/main.tex",
-                source_texts=[exp_log, idea_txt],
-                ordered_sections=[("main.tex", main_tex)],
-                bib_text=bib_txt,
-                citation_registry=cit_reg,
-                symbol_table=sym_table,
-                latex_source_dir=bundle_dir / "manuscript",
-                tex_filename="main.tex",
-            )
+            suite = verify_paper_bundle(bundle_dir)
         except Exception as exc:
             return {
                 "decision": "continue",

@@ -1,0 +1,59 @@
+{
+  "target_artifact": "manuscript/main.tex",
+  "gates": [
+    {
+      "gate": "numeric_fidelity",
+      "passed": true,
+      "errors": [],
+      "warnings": [],
+      "metrics": {
+        "source_numbers_indexed": 158,
+        "target_numbers_checked": 106
+      }
+    },
+    {
+      "gate": "citation_integrity",
+      "passed": true,
+      "errors": [],
+      "warnings": [],
+      "metrics": {
+        "cited_keys_count": 8,
+        "bib_entries_count": 8,
+        "registry_papers_count": 8,
+        "pool_utilization": 1.0
+      }
+    },
+    {
+      "gate": "latex_build",
+      "passed": false,
+      "errors": [
+        "Overfull hbox (24.24pt) at lines 13-22."
+      ],
+      "warnings": [
+        "Overfull hbox (6.42pt) at lines 7-8."
+      ],
+      "metrics": {
+        "page_count": 4,
+        "max_overfull_pt": 24.24
+      }
+    },
+    {
+      "gate": "symbol_table",
+      "passed": true,
+      "errors": [],
+      "warnings": [
+        "Unregistered structural symbol '\\mathbf{D}' appears 5 times; consider adding it to symbol_table.json.",
+        "Unregistered structural symbol '\\mathbf{H}' appears 3 times; consider adding it to symbol_table.json.",
+        "Unregistered structural symbol '\\mathbf{S}' appears 3 times; consider adding it to symbol_table.json.",
+        "Unregistered structural symbol '\\mathbf{W}' appears 3 times; consider adding it to symbol_table.json.",
+        "Unregistered structural symbol '\\mathcal{V}' appears 2 times; consider adding it to symbol_table.json."
+      ],
+      "metrics": {
+        "registered_symbols": 4,
+        "sections_audited": 5,
+        "unregistered_recurring_symbols": 5
+      }
+    }
+  ],
+  "all_passed": false
+}

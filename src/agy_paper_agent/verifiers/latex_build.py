@@ -23,10 +23,12 @@ FATAL_LOG_PATTERNS: tuple[re.Pattern[str], ...] = (
     re.compile(r"^!\s+Package [^\n]+ Error:.*$", re.MULTILINE),
 )
 UNDEFINED_REF_RE = re.compile(
-    r"LaTeX Warning: (?:Reference|Citation) [`']([^']+)' on page \d+ undefined"
+    r"(?:LaTeX|Package natbib|Package biblatex) Warning: "
+    r"(?:Reference|Citation) [`']([^']+)' on page \d+ undefined"
 )
 THERE_WERE_UNDEF_RE = re.compile(
-    r"LaTeX Warning: There were (?:undefined references|multiply-defined labels)"
+    r"(?:LaTeX|Package natbib|Package biblatex) Warning: There were "
+    r"(?:undefined references|undefined citations|multiply-defined labels)"
 )
 BIBTEX_ERR_RE = re.compile(
     r"(?:I didn't find a database entry for|Repeated entry---line|---while reading file)",
@@ -47,10 +49,14 @@ def _clean_tex_env() -> dict[str, str]:
     return env
 
 
-def _needs_bibtex(tex_text: str) -> bool:
+def _needs_bibtex(source_dir: Path, root_tex: str) -> bool:
+    all_tex = "\n".join(
+        p.read_text(encoding="utf-8", errors="replace") for p in source_dir.rglob("*.tex")
+    )
+    combined = root_tex + "\n" + all_tex
     return bool(
-        re.search(r"\\(?:bibliography|addbibresource)\s*\{", tex_text)
-        and re.search(r"\\(?:cite\w*|nocite)\s*(?:\[[^\]]*\])*\s*\{", tex_text)
+        re.search(r"\\(?:bibliography|addbibresource)\s*\{", combined)
+        and re.search(r"\\(?:cite\w*|nocite)\s*(?:\[[^\]]*\])*\s*\{", combined)
     )
 
 
@@ -89,7 +95,7 @@ def verify_latex_build(
 
     stem = Path(tex_filename).stem
     tex_content = tex_path.read_text(encoding="utf-8")
-    run_bib = _needs_bibtex(tex_content)
+    run_bib = _needs_bibtex(source_dir, tex_content)
     bib_tool = "biber" if _uses_biber(tex_content) else "bibtex"
 
     commands: list[list[str]] = [
@@ -107,6 +113,9 @@ def verify_latex_build(
     with tempfile.TemporaryDirectory(prefix="agy_latex_gate_") as tmp_str:
         work_dir = Path(tmp_str) / "build"
         shutil.copytree(source_dir, work_dir)
+        sibling_figs = source_dir.parent / "figures"
+        if sibling_figs.is_dir():
+            shutil.copytree(sibling_figs, Path(tmp_str) / "figures")
 
         for step_cmd in commands:
             cmd_label = " ".join(step_cmd)

@@ -20,6 +20,7 @@ MACRO_DEF_RE = re.compile(
 )
 CUSTOM_STRUCT_SYMBOL_RE = re.compile(
     r"\\(?:mathcal|mathbf|mathbb|mathsf|mathfrak|boldsymbol)\{[A-Za-z0-9_]+\}"
+    r"(?:_(?:\{[^\}]+\}|[A-Za-z0-9]))?"
 )
 PROSE_DOMAIN_CLAIM_RE = re.compile(r"\$([^\$]+?)\\in\s*([^\$,.;]+)\$")
 STANDARD_MATH_SETS = frozenset(

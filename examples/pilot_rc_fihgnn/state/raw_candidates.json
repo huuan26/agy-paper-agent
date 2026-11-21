@@ -1,0 +1,14 @@
+[
+  {
+    "title": "Physics-informed neural networks: A deep learning framework for solving forward and inverse problems involving nonlinear partial differential equations",
+    "year_hint": 2019,
+    "doi_hint": "10.1016/j.jcp.2018.10.045",
+    "priority": "P0"
+  },
+  {
+    "title": "Hypergraph Neural Networks",
+    "year_hint": 2019,
+    "doi_hint": "10.1609/aaai.v33i01.33013558",
+    "priority": "P0"
+  }
+]
