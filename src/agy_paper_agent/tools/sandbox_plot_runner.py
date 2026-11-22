@@ -92,6 +92,17 @@ def _scrubbed_child_env() -> dict[str, str]:
     return env
 
 
+def _atomic_copy(src: Path, dst: Path) -> None:
+    """Replace `dst` via sibling temp file and `os.replace`."""
+    dst.parent.mkdir(parents=True, exist_ok=True)
+    staged = dst.with_name(f".{dst.name}.{os.getpid()}.tmp")
+    try:
+        shutil.copyfile(src, staged)
+        os.replace(staged, dst)
+    finally:
+        staged.unlink(missing_ok=True)
+
+
 def rasterize_pdf_to_png(
     pdf_path: Path, png_path: Path, dpi: int = 300, timeout_sec: int = 30
 ) -> list[str]:
@@ -99,19 +110,22 @@ def rasterize_pdf_to_png(
     png_path.parent.mkdir(parents=True, exist_ok=True)
     pdftoppm = shutil.which("pdftoppm")
     if pdftoppm:
-        prefix = str(png_path.with_suffix(""))
-        proc = subprocess.run(
-            [pdftoppm, "-png", "-r", str(dpi), "-singlefile", str(pdf_path), prefix],
-            capture_output=True,
-            text=True,
-            encoding="utf-8",
-            errors="replace",
-            timeout=timeout_sec,
-            check=False,
-        )
-        if proc.returncode == 0 and png_path.is_file():
-            return []
-        return [f"pdftoppm failed ({proc.returncode}): {proc.stderr.strip()}"]
+        with tempfile.TemporaryDirectory(prefix="agy_ppm_") as tmp_dir:
+            prefix = str(Path(tmp_dir) / "page")
+            tmp_png = Path(f"{prefix}.png")
+            proc = subprocess.run(
+                [pdftoppm, "-png", "-r", str(dpi), "-singlefile", str(pdf_path), prefix],
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                errors="replace",
+                timeout=timeout_sec,
+                check=False,
+            )
+            if proc.returncode == 0 and tmp_png.is_file():
+                _atomic_copy(tmp_png, png_path)
+                return []
+            return [f"pdftoppm failed ({proc.returncode}): {proc.stderr.strip()}"]
 
     gs_bin = shutil.which("mgs") or shutil.which("gs")
     if gs_bin:
@@ -290,8 +304,7 @@ def compile_tikz_diagram(
                 [f"TikZ compilation failed (code {proc.returncode}): {tail}"],
             )
 
-        output_pdf.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(built_pdf, output_pdf)
+        _atomic_copy(built_pdf, output_pdf)
 
     rast_errs = rasterize_pdf_to_png(output_pdf, target_png, dpi=dpi)
     if rast_errs:

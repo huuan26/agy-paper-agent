@@ -1,71 +1,71 @@
-# AGY Paper Co-Author (`agy-paper-agent`)
+# `agy-paper-agent`
 
-An Interactive Co-Author multi-agent plugin and Python SDK framework for authoring rigorous LaTeX scientific manuscripts on Google Antigravity (AGY).
+Multi-agent plugin and Python SDK package for drafting and verifying LaTeX research papers on Google Antigravity (AGY).
 
-Inspired by the multi-agent decomposition of PaperOrchestra (arXiv:2604.05018), `agy-paper-agent` replaces prompt-only instructions and raster diagram generation with deterministic programmatic verification gates, multi-source scholarly authentication, pure code-vector visuals, and rollback-safe adversarial refinement.
+Built on the multi-stage structure of PaperOrchestra (arXiv:2604.05018), `agy-paper-agent` adds programmatic checks for numbers, citations, LaTeX compilation, and math notation, along with multi-source reference lookup, code-generated figures, and snapshot rollback during revision.
 
-![Overview of the AGY Paper Co-Author Framework](assets/overview_en.png)
+![Overview of agy-paper-agent](assets/overview_en.png)
 
-* Pure TikZ vector architecture overview: [English PDF](assets/overview_en.pdf) | [English PNG](assets/overview_en.png) | [Vietnamese PDF](assets/overview_vi.pdf) | [Vietnamese PNG](assets/overview_vi.png)
+* Architecture diagrams (TikZ): [English PDF](assets/overview_en.pdf) | [English PNG](assets/overview_en.png) | [Vietnamese PDF](assets/overview_vi.pdf) | [Vietnamese PNG](assets/overview_vi.png)
 
-## Core Architectural Guarantees
+## Key features
 
-1. **Dual-Surface Execution (`D-01`)**:
-   - **AGY Native Plugin**: Ships `plugin.json`, `rules/AGENTS.md`, `hooks.json`, 5 specialized `SKILL.md` runbooks, and dynamic `workflows/paper_pipeline.py` (`run_workflow`).
-   - **Google Antigravity Python SDK (`google.antigravity`)**: Reuses 100% of core contracts, verifiers, and skills via `GoogleAntigravityBackend` and `SDKPaperCoAuthorRunner` (`AgentBehavior.INTERACTIVE` for Co-Author mode, `AgentBehavior.AUTONOMOUS` for batch benchmarking).
-2. **Optional Stage-0 Ingestion Adapter (`D-02`)**:
-   - Accepts a canonical `paper_bundle/` (`contract/idea.md`, `contract/experimental_log.md`, `contract/symbol_table.json`). Automatically bypasses Stage 0 when canonical files are present, or extracts them with `provenance_map.json` from raw research workspaces.
-3. **Stage-Gated Interactive Co-Author (`D-03`)**:
-   - Enforces Human-in-the-Loop (HITL) approval checkpoints across all 6 stages (`stage0_ingest` through `stage5_refinement`) unless `auto_approve=True` is explicitly set for batch ablation runs.
-4. **Multi-Source Citation Cascade with Local Cache (`D-04`)**:
-   - Merges curated `seed_references.bib` entries with candidate queries authenticated sequentially across **Crossref REST API -> OpenAlex -> arXiv Atom API -> Semantic Scholar**, backed by a local SQLite cache and strict `cutoff_date` filtering.
-5. **100% Pure Code-Vector Visuals (`D-05`)**:
-   - Blocks raster `image-generator` calls via both AGY `PreToolUse` lifecycle hooks and SDK `policy.deny` predicates.
-   - Executes empirical Matplotlib scripts (`.py`) inside a secret-scrubbed subprocess after static AST security checks, and compiles standalone TikZ/PGFPlots diagrams (`.tex`) with `-no-shell-escape` to vector `.pdf` and 300-DPI `.png`.
-6. **Four Deterministic Verification Gates (`D-06`)**:
-   - `numeric_fidelity`: Precision-aware decimal rounding verification across LaTeX tables, quantitative prose claims, and AST-parsed Matplotlib data series against `experimental_log.md`.
-   - `citation_integrity`: Balanced-brace BibTeX verification, registry synchronization, pool utilization ratio, and post-cutoff superiority-claim blocking.
-   - `latex_build`: Hermetic `pdflatex`/`xelatex` + `bibtex`/`biber` build check catching undefined references/citations (`natbib`/`biblatex`), page-limit violations, and severe `Overfull \hbox` margin overflows.
-   - `symbol_table`: Cross-section mathematical symbol consistency checking (use-before-definition, macro overrides, and domain/shape conflicts).
-7. **Adversarial 3-Reviewer Panel & Automatic Rollback (`D-07`)**:
-   - Evaluates drafts across three specialist lenses (`math_methodology`, `empirical_evidence`, `vlm_venue_layout`), integrates user `hitl_notes`, revises in an isolated branch/snapshot, and automatically rolls back `manuscript/` if any deterministic gate fails.
+1. **Two execution modes (`D-01`)**:
+   - **AGY plugin**: Provides `plugin.json`, `rules/AGENTS.md`, `hooks.json`, 5 `SKILL.md` guides, and `workflows/paper_pipeline.py` (`run_workflow`).
+   - **Python SDK (`google.antigravity`)**: Shares the same schemas, verifiers, and skills through `GoogleAntigravityBackend` and `SDKPaperCoAuthorRunner` (`AgentBehavior.INTERACTIVE` for step-by-step use, `AgentBehavior.AUTONOMOUS` for batch runs).
+2. **Optional Stage 0 input setup (`D-02`)**:
+   - Works directly on a structured `paper_bundle/` (`contract/idea.md`, `contract/experimental_log.md`, `contract/symbol_table.json`), or extracts those files and `provenance_map.json` from an unstructured project folder.
+3. **Step-by-step approval pauses (`D-03`)**:
+   - Pauses for user review after each stage (`stage0_ingest` through `stage5_refinement`) unless `auto_approve=True` is set.
+4. **Multi-source reference verification (`D-04`)**:
+   - Combines `seed_references.bib` with candidate queries checked across **Crossref -> OpenAlex -> arXiv -> Semantic Scholar**, backed by a local SQLite cache and `cutoff_date` filtering.
+5. **Code-generated vector figures (`D-05`)**:
+   - Blocks raster `image-generator` calls via AGY `PreToolUse` hooks and SDK policy rules.
+   - Runs Matplotlib scripts (`.py`) in an isolated subprocess after static AST checks, and compiles standalone TikZ files (`.tex`) with `-no-shell-escape` to `.pdf` and 300-DPI `.png`.
+6. **Four automated checks (`D-06`)**:
+   - `numeric_fidelity`: Checks numbers in LaTeX tables, prose claims, and Matplotlib scripts against `experimental_log.md`.
+   - `citation_integrity`: Checks BibTeX syntax, registry consistency, reference usage ratio, and `cutoff_date` rules.
+   - `latex_build`: Compiles with `pdflatex`/`xelatex` and `bibtex`/`biber` to catch undefined references, page-limit overflows, and `Overfull \hbox` warnings.
+   - `symbol_table`: Checks math notation across sections against `contract/symbol_table.json`.
+7. **Review pass with snapshot rollback (`D-07`)**:
+   - Runs three targeted checks (`math_methodology`, `empirical_evidence`, `vlm_venue_layout`), applies user notes in an isolated copy, and restores the previous `manuscript/` snapshot if any automated check fails.
 
-## Repository Layout
+## Repository layout
 
 ```text
 agy-paper-agent/
-|-- plugin.json                     # AGY Native Plugin manifest
-|-- assets/                         # Pure TikZ architecture overviews (EN & VI)
-|-- hooks.json                      # AGY PreToolUse & Stop runtime guardrails
-|-- scripts/run_hook.py             # Cross-platform .venv hook launcher (fail-open)
-|-- rules/AGENTS.md                 # Authoring invariants loaded when plugin is active
-|-- skills/                         # 5 progressive-disclosure AGY skills
+|-- plugin.json                     # AGY plugin manifest
+|-- assets/                         # TikZ overview diagrams (EN & VI)
+|-- hooks.json                      # PreToolUse & Stop hooks
+|-- scripts/run_hook.py             # Cross-platform .venv hook launcher
+|-- rules/AGENTS.md                 # Authoring rules loaded with the plugin
+|-- skills/                         # 5 AGY skills
 |   |-- paper-coauthor/SKILL.md
 |   |-- paper-ingestion/SKILL.md
 |   |-- paper-lit-verify/SKILL.md
 |   |-- paper-vector-viz/SKILL.md
 |   `-- paper-refinement/SKILL.md
-|-- workflows/                      # Dynamic AGY run_workflow script & schema
+|-- workflows/                      # AGY run_workflow script & schema
 |   |-- paper_pipeline.py
 |   `-- workflow.json
-|-- schemas/                        # Deterministic JSON Schemas exported from contracts.py
-|-- templates/                      # Clean single-column & two-column LaTeX templates
-|-- src/agy_paper_agent/            # Lean Python core (all modules <= 400 lines)
-|   |-- contracts.py                # Pydantic v2 single source of truth
-|   |-- bundle.py                   # paper_bundle lifecycle & 4-gate runner
-|   |-- hooks_entry.py              # AGY camelCase stdin/stdout hook handler
-|   |-- sdk_tools.py                # SDK telemetry & custom tool wrappers
-|   |-- sdk_adapter.py              # google.antigravity Agent & LocalAgentConfig runner
-|   |-- ablation_harness.py         # 4 quantitative ablation benchmarks
-|   |-- verifiers/                  # Gates 1-4 (numeric, citation, latex, symbols)
-|   `-- tools/                      # Multi-API citation verifier & vector sandbox
-|-- examples/pilot_rc_fihgnn/       # Verified 5-page end-to-end RC-FIHGNN pilot bundle
-`-- tests/                          # Full unit, MiKTeX integration, and ablation test suite
+|-- schemas/                        # JSON Schemas exported from contracts.py
+|-- templates/                      # Single-column & two-column LaTeX templates
+|-- src/agy_paper_agent/            # Core Python package (modules <= 400 lines)
+|   |-- contracts.py                # Pydantic v2 data models
+|   |-- bundle.py                   # Bundle management & 4-check runner
+|   |-- hooks_entry.py              # AGY hook handler
+|   |-- sdk_tools.py                # SDK tool wrappers
+|   |-- sdk_adapter.py              # google.antigravity runner
+|   |-- ablation_harness.py         # Guardrail ablation benchmarks
+|   |-- verifiers/                  # Checks 1-4 (numeric, citation, latex, symbols)
+|   `-- tools/                      # Citation verifier & figure build runner
+|-- examples/pilot_rc_fihgnn/       # 5-page RC-FIHGNN example bundle
+`-- tests/                          # Unit, MiKTeX integration, and ablation tests
 ```
 
-## Installation & Setup
+## Setup
 
-Create an isolated virtual environment inside the repository root:
+Create a virtual environment in the repository root:
 
 ```powershell
 Set-Location C:\Users\ADMIN\Documents\agy-paper-agent
@@ -73,13 +73,13 @@ python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -e ".[dev]"
 ```
 
-Optional Google Antigravity Python SDK dependency for standalone batch runs:
+Optional Google Antigravity Python SDK dependency for standalone runs:
 
 ```powershell
 .\.venv\Scripts\python.exe -m pip install -e ".[sdk]"
 ```
 
-To register as a global AGY plugin without copying files, add the parent path to `~/.gemini/config/plugins.json`:
+To register the plugin globally in AGY, add its parent directory to `~/.gemini/config/plugins.json`:
 
 ```json
 {
@@ -92,17 +92,17 @@ To register as a global AGY plugin without copying files, add the parent path to
 }
 ```
 
-## CLI Usage
+## CLI commands
 
 ```powershell
-# Verify JSON schemas in schemas/ match Pydantic models in contracts.py
+# Check that JSON schemas in schemas/ match contracts.py
 .\.venv\Scripts\python.exe -m agy_paper_agent --check
 
-# Initialize and inspect a canonical paper_bundle
+# Initialize and inspect a paper_bundle
 .\.venv\Scripts\python.exe -m agy_paper_agent init-bundle --bundle-dir ./my_paper --template generic_article
 .\.venv\Scripts\python.exe -m agy_paper_agent inspect-bundle --bundle-dir ./my_paper
 
-# Authenticate candidate citations across Crossref, OpenAlex, arXiv, and Semantic Scholar
+# Verify candidate references across Crossref, OpenAlex, arXiv, and Semantic Scholar
 .\.venv\Scripts\python.exe -m agy_paper_agent verify-citations `
   --candidates-json ./my_paper/state/raw_candidates.json `
   --output-registry ./my_paper/state/citation_registry.json `
@@ -111,25 +111,25 @@ To register as a global AGY plugin without copying files, add the parent path to
   --cache-db ./my_paper/state/citations_cache.sqlite `
   --cutoff 2026-06
 
-# Build pure code-vector Matplotlib or standalone TikZ visuals in an isolated sandbox
+# Build a Matplotlib script or standalone TikZ file
 .\.venv\Scripts\python.exe -m agy_paper_agent build-visual `
   --kind tikz `
   --source ./my_paper/figures/tikz/fig_arch.tex `
   --pdf ./my_paper/figures/rendered/fig_arch.pdf `
   --png ./my_paper/figures/rendered/fig_arch.png
 
-# Run all 4 deterministic gates and export compiled PDF
+# Run all 4 checks and export main.pdf
 .\.venv\Scripts\python.exe -m agy_paper_agent verify-bundle `
   --bundle-dir ./examples/pilot_rc_fihgnn `
   --enforce-utilization `
   --output-pdf ./examples/pilot_rc_fihgnn/manuscript/main.pdf
 
-# Run adversarial guardrail ablations on a clean bundle
+# Run guardrail ablation tests on a bundle
 .\.venv\Scripts\python.exe -m agy_paper_agent run-ablations `
   --bundle-dir ./examples/pilot_rc_fihgnn
 ```
 
-## Verification Suite
+## Tests and linting
 
 ```powershell
 Set-Location C:\Users\ADMIN\Documents\agy-paper-agent
