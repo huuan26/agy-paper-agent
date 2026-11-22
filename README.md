@@ -4,6 +4,10 @@ An Interactive Co-Author multi-agent plugin and Python SDK framework for authori
 
 Inspired by the multi-agent decomposition of PaperOrchestra (arXiv:2604.05018), `agy-paper-agent` replaces prompt-only instructions and raster diagram generation with deterministic programmatic verification gates, multi-source scholarly authentication, pure code-vector visuals, and rollback-safe adversarial refinement.
 
+![Overview of the AGY Paper Co-Author Framework](assets/overview_en.png)
+
+* Pure TikZ vector architecture overview: [English PDF](assets/overview_en.pdf) | [English PNG](assets/overview_en.png) | [Vietnamese PDF](assets/overview_vi.pdf) | [Vietnamese PNG](assets/overview_vi.png)
+
 ## Core Architectural Guarantees
 
 1. **Dual-Surface Execution (`D-01`)**:
@@ -31,6 +35,7 @@ Inspired by the multi-agent decomposition of PaperOrchestra (arXiv:2604.05018), 
 ```text
 agy-paper-agent/
 |-- plugin.json                     # AGY Native Plugin manifest
+|-- assets/                         # Pure TikZ architecture overviews (EN & VI)
 |-- hooks.json                      # AGY PreToolUse & Stop runtime guardrails
 |-- scripts/run_hook.py             # Cross-platform .venv hook launcher (fail-open)
 |-- rules/AGENTS.md                 # Authoring invariants loaded when plugin is active
