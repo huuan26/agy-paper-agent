@@ -32,6 +32,7 @@ Inspired by the multi-agent decomposition of PaperOrchestra (arXiv:2604.05018), 
 agy-paper-agent/
 |-- plugin.json                     # AGY Native Plugin manifest
 |-- hooks.json                      # AGY PreToolUse & Stop runtime guardrails
+|-- scripts/run_hook.py             # Cross-platform .venv hook launcher (fail-open)
 |-- rules/AGENTS.md                 # Authoring invariants loaded when plugin is active
 |-- skills/                         # 5 progressive-disclosure AGY skills
 |   |-- paper-coauthor/SKILL.md

@@ -7,7 +7,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python -m agy_paper_agent.hooks_entry",
+            "command": "python scripts/run_hook.py",
             "timeout": 10
           }
         ]
@@ -16,7 +16,7 @@
     "Stop": [
       {
         "type": "command",
-        "command": "python -m agy_paper_agent.hooks_entry",
+        "command": "python scripts/run_hook.py",
         "timeout": 90
       }
     ]

@@ -3,7 +3,10 @@
 from __future__ import annotations
 
 import json
+import os
 import shutil
+import subprocess
+import sys
 from pathlib import Path
 
 import pytest
@@ -265,3 +268,45 @@ def test_hooks_stop_prevents_loop_when_continuation_active_and_checks_bundle(
     assert stop_resp["decision"] == "continue"
     assert "numeric_fidelity" in stop_resp["reason"]
     assert "9.99" in stop_resp["reason"]
+
+
+def test_run_hook_launcher_delegates_to_venv_and_fails_open_when_missing(
+    tmp_path: Path,
+) -> None:
+    repo_root = Path(__file__).resolve().parents[1]
+    launcher = repo_root / "scripts" / "run_hook.py"
+    payload = json.dumps(
+        {
+            "hookEventName": "PreToolUse",
+            "toolCall": {"name": "invoke_subagent", "args": {"TypeName": "image-generator"}},
+        }
+    )
+
+    # 1. Real delegation to .venv from repo root
+    proc_live = subprocess.run(
+        [sys.executable, str(launcher)],
+        cwd=repo_root,
+        input=payload,
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        check=False,
+    )
+    assert proc_live.returncode == 0
+    live_out = json.loads(proc_live.stdout)
+    assert live_out["decision"] == "deny"
+
+    # 2. Fail-open when .venv does not exist on a fresh clone
+    env_no_venv = {**os.environ, "AGY_HOOK_PLUGIN_ROOT": str(tmp_path)}
+    proc_fallback = subprocess.run(
+        [sys.executable, str(launcher)],
+        cwd=repo_root,
+        env=env_no_venv,
+        input=payload,
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        check=False,
+    )
+    assert proc_fallback.returncode == 0
+    assert json.loads(proc_fallback.stdout) == {"decision": "allow"}
