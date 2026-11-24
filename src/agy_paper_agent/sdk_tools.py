@@ -10,7 +10,7 @@ from typing import Any, Protocol
 
 from pydantic import BaseModel
 
-from agy_paper_agent.bundle import inspect_bundle, verify_paper_bundle
+from agy_paper_agent.bundle import audit_bundle_prose, inspect_bundle, verify_paper_bundle
 from agy_paper_agent.tools import (
     CandidateQuery,
     MultiSourceCitationVerifier,
@@ -144,9 +144,19 @@ def build_sdk_custom_tools(
         suite = verify_paper_bundle(bundle_dir, enforce_citation_utilization=enforce_utilization)
         return json.dumps(suite.model_dump())
 
+    def audit_prose_style_tool(max_issues_per_file: int | None = None) -> str:
+        """Audit LaTeX manuscript prose for AI-writing patterns (`avoid-ai-writing`).
+
+        Args:
+            max_issues_per_file: Optional maximum issues per TeX file before failing.
+        """
+        rep = audit_bundle_prose(bundle_dir, max_issues_per_file=max_issues_per_file)
+        return json.dumps(rep.to_dict())
+
     return [
         inspect_paper_bundle_tool,
         verify_citations_tool,
         build_vector_visual_tool,
         run_deterministic_gates_tool,
+        audit_prose_style_tool,
     ]

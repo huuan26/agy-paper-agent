@@ -8,7 +8,12 @@ import sys
 from pathlib import Path
 
 from agy_paper_agent.ablation_harness import ablate_deterministic_gates
-from agy_paper_agent.bundle import init_paper_bundle, inspect_bundle, verify_paper_bundle
+from agy_paper_agent.bundle import (
+    audit_bundle_prose,
+    init_paper_bundle,
+    inspect_bundle,
+    verify_paper_bundle,
+)
 from agy_paper_agent.contracts import export_all_schemas
 from agy_paper_agent.tools import (
     CandidateQuery,
@@ -61,6 +66,15 @@ def _build_parser() -> argparse.ArgumentParser:
     p_abl = sub.add_parser("run-ablations", help="Run deterministic guardrails ablation on bundle.")
     p_abl.add_argument("--bundle-dir", type=Path, required=True)
     p_abl.add_argument("--report-out", type=Path, default=None)
+
+    p_prose = sub.add_parser(
+        "audit-prose", help="Audit LaTeX prose for AI-writing patterns via avoid-ai-writing."
+    )
+    p_prose.add_argument("--bundle-dir", type=Path, required=True)
+    p_prose.add_argument("--tex-filename", default="main.tex")
+    p_prose.add_argument("--max-issues-per-file", type=int, default=None)
+    p_prose.add_argument("--max-sentence-words", type=int, default=85)
+    p_prose.add_argument("--report-out", type=Path, default=None)
 
     return parser
 
@@ -168,6 +182,17 @@ def main(argv: list[str] | None = None) -> int:
             args.report_out.write_text(rendered, encoding="utf-8")
         sys.stdout.write(rendered)
         return 0 if metrics.defect_catch_rate == 1.0 else 1
+
+    if args.subcommand == "audit-prose":
+        report = audit_bundle_prose(
+            args.bundle_dir,
+            tex_filename=args.tex_filename,
+            max_issues_per_file=args.max_issues_per_file,
+            max_sentence_words=args.max_sentence_words,
+            report_out=args.report_out,
+        )
+        sys.stdout.write(json.dumps(report.to_dict(), indent=2) + "\n")
+        return 0 if report.passed else 1
 
     return 1
 

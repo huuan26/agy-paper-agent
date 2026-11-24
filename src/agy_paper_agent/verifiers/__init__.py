@@ -16,6 +16,13 @@ from agy_paper_agent.verifiers.numeric_fidelity import (
     extract_source_number_pool,
     verify_numeric_fidelity,
 )
+from agy_paper_agent.verifiers.prose_style import (
+    FileProseAudit,
+    ProseAuditReport,
+    ProseIssue,
+    audit_manuscript_prose,
+    extract_latex_prose,
+)
 from agy_paper_agent.verifiers.symbol_table import verify_symbol_consistency
 
 
@@ -72,7 +79,12 @@ def run_all_gates(
 
 
 __all__ = [
+    "FileProseAudit",
+    "ProseAuditReport",
+    "ProseIssue",
     "SourceNumberPool",
+    "audit_manuscript_prose",
+    "extract_latex_prose",
     "extract_source_number_pool",
     "run_all_gates",
     "verify_citation_integrity",

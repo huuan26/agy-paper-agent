@@ -22,6 +22,7 @@ EXPECTED_SKILLS = (
     "paper-ingestion",
     "paper-lit-verify",
     "paper-vector-viz",
+    "paper-prose-audit",
     "paper-refinement",
 )
 
@@ -177,6 +178,7 @@ def test_workflow_enforces_hitl_gate_stage0_bypass_model_tiers_and_stage5_rollba
         assert models_by_role["Critic: math_methodology"] == "pro"
         assert models_by_role["Critic: empirical_evidence"] == "pro"
         assert models_by_role["Critic: vlm_venue_layout"] == "flash"
+        assert models_by_role["Critic: prose_style"] == "pro"
         rev_call = next(c for c in agent_calls if c["role"] == "Revision Author")
         assert rev_call["ws"] == "branch"
 

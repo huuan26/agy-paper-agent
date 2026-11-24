@@ -10,7 +10,12 @@ from typing import Any
 
 from pydantic import BaseModel
 
-from agy_paper_agent.bundle import REPO_ROOT, inspect_bundle, verify_paper_bundle
+from agy_paper_agent.bundle import (
+    REPO_ROOT,
+    audit_bundle_prose,
+    inspect_bundle,
+    verify_paper_bundle,
+)
 from agy_paper_agent.contracts import (
     OutlineContract,
     ReviewerCritique,
@@ -260,14 +265,24 @@ class SDKPaperCoAuthorRunner:
             results["completed_stages"].append("stage4_sections")
 
         if "stage5_refinement" in stages:
+            pre_prose = audit_bundle_prose(
+                bundle_dir,
+                report_out=bundle_dir / "state" / "verification_reports" / "stage5_prose_pre.json",
+            )
             reviews: list[dict[str, Any]] = []
             for role, mdl in (
                 ("math_methodology", pro_model),
                 ("empirical_evidence", pro_model),
                 ("vlm_venue_layout", flash_model),
+                ("prose_style", pro_model),
             ):
+                extra_ctx = (
+                    f" Detector report: {json.dumps(pre_prose.to_dict())}."
+                    if role == "prose_style"
+                    else ""
+                )
                 crit_raw, tel = await self.backend.run_turn(
-                    f"Critique '{bundle_dir}/manuscript/main.tex' as '{role}'.",
+                    f"Critique '{bundle_dir}/manuscript/main.tex' as '{role}'.{extra_ctx}",
                     stage_name=f"stage5_critic_{role}",
                     bundle_dir=bundle_dir,
                     auto_approve=auto_approve,
@@ -294,7 +309,11 @@ class SDKPaperCoAuthorRunner:
             telemetry_report.stages.append(rev_tel)
 
             suite5 = verify_paper_bundle(bundle_dir)
-            if suite5.all_passed:
+            post_prose = audit_bundle_prose(
+                bundle_dir,
+                report_out=bundle_dir / "state" / "verification_reports" / "stage5_prose_post.json",
+            )
+            if suite5.all_passed and post_prose.critical_issues == 0:
                 outcome = "accept" if auto_approve else "await_hitl"
             else:
                 shutil.rmtree(manuscript_dir)
@@ -306,6 +325,13 @@ class SDKPaperCoAuthorRunner:
                     "iteration": 1,
                     "gates": suite5.model_dump(),
                     "reviews": reviews,
+                    "prose_audit": {
+                        "engine_mode": post_prose.engine_mode,
+                        "pre_issues": pre_prose.total_issues,
+                        "post_issues": post_prose.total_issues,
+                        "critical_issues": post_prose.critical_issues,
+                        "passed": post_prose.passed,
+                    },
                     "hitl_notes": hitl_notes or [],
                     "addressed_issues": ["Applied SDK Stage 5 revision"],
                     "outcome": outcome,

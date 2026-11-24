@@ -311,13 +311,21 @@ async def execute_pipeline(
         summary["stage4"] = {"gates_all_passed": True}
         summary["completed_stages"].append("stage4_sections")
 
-    # --- Stage 5: Adversarial 3-Reviewer Panel & Rollback-Safe Revision (D-07) ---
+    # --- Stage 5: Adversarial 4-Reviewer Panel & Rollback-Safe Revision (D-07) ---
     if "stage5_refinement" in stages_to_run:
         phase_fn("Stage 5 - Adversarial Panel & Safe Revision")
+        prose_pre_path = bundle_dir / "state" / "verification_reports" / "stage5_prose_pre.json"
+        _, prose_pre_out, _ = _run_plugin_cli(
+            plugin_root,
+            ["audit-prose", "--bundle-dir", str(bundle_dir), "--report-out", str(prose_pre_path)],
+        )
+        prose_pre_obj = json.loads(prose_pre_out) if prose_pre_out else {"total_issues": 0}
+
         reviewer_roles = [
             ("math_methodology", "pro"),
             ("empirical_evidence", "pro"),
             ("vlm_venue_layout", "flash"),
+            ("prose_style", "pro"),
         ]
         critique_schema = _load_schema("review_panel.schema.json")["$defs"]["ReviewerCritique"]
         reviews = await parallel_fn(
@@ -325,8 +333,15 @@ async def execute_pipeline(
             lambda rm: agent_fn(
                 (
                     f"Act as '{rm[0]}' critic on '{bundle_dir}/manuscript/main.tex' against "
-                    f"'contract/experimental_log.md' and 'template/guidelines.md'. "
-                    "Never request new unlogged experiments."
+                    f"'contract/experimental_log.md' and 'template/guidelines.md'."
+                    + (
+                        f" Use avoid-ai-writing prose audit {json.dumps(prose_pre_obj)} to flag "
+                        "AI-isms, participial '-ing' chains, self-labeling adverbials, and "
+                        "overlong clause-stuffed sentences while preserving domain math terms."
+                        if rm[0] == "prose_style"
+                        else ""
+                    )
+                    + " Never request new unlogged experiments."
                 ),
                 schema=critique_schema,
                 role=f"Critic: {rm[0]}",
@@ -345,8 +360,10 @@ async def execute_pipeline(
             (
                 f"Revise '{manuscript_dir}/main.tex' to address blocking issues from "
                 f"reviews={json.dumps(reviews)} and hitl_notes={json.dumps(hitl_notes)}. "
-                "Strictly obey anti-reward-hacking rules: never fabricate experiments or pad "
-                "generic limitation disclaimers. Return list of addressed issues."
+                "Apply surgical edits per avoid-ai-writing rules while preserving 100% of "
+                "logged numbers, citations, equations, and symbols. Strictly obey "
+                "anti-reward-hacking rules: never fabricate experiments or pad generic "
+                "limitation disclaimers. Return list of addressed issues."
             ),
             schema={"type": "array", "items": {"type": "string"}},
             role="Revision Author",
@@ -360,7 +377,21 @@ async def execute_pipeline(
             ["verify-bundle", "--bundle-dir", str(bundle_dir), "--report-out", str(rep_path)],
         )
         gates_obj = json.loads(out)
-        if rc == 0 and gates_obj.get("all_passed", False):
+        prose_post_path = bundle_dir / "state" / "verification_reports" / "stage5_prose_post.json"
+        _, prose_post_out, _ = _run_plugin_cli(
+            plugin_root,
+            ["audit-prose", "--bundle-dir", str(bundle_dir), "--report-out", str(prose_post_path)],
+        )
+        prose_post_obj = (
+            json.loads(prose_post_out)
+            if prose_post_out
+            else {"engine_mode": "unknown", "total_issues": 0, "critical_issues": 0, "passed": True}
+        )
+        if (
+            rc == 0
+            and gates_obj.get("all_passed", False)
+            and int(prose_post_obj.get("critical_issues", 0)) == 0
+        ):
             outcome = "accept" if auto_approve else "await_hitl"
         else:
             log_fn("Stage 5 revision violated deterministic gates; rolling back manuscript.")
@@ -372,6 +403,13 @@ async def execute_pipeline(
             "iteration": 1,
             "gates": gates_obj,
             "reviews": reviews,
+            "prose_audit": {
+                "engine_mode": str(prose_post_obj.get("engine_mode", "unknown")),
+                "pre_issues": int(prose_pre_obj.get("total_issues", 0)),
+                "post_issues": int(prose_post_obj.get("total_issues", 0)),
+                "critical_issues": int(prose_post_obj.get("critical_issues", 0)),
+                "passed": bool(prose_post_obj.get("passed", True)),
+            },
             "hitl_notes": hitl_notes,
             "addressed_issues": addressed,
             "outcome": outcome,

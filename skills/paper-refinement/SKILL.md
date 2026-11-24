@@ -7,19 +7,23 @@ description: >-
   user HITL critiques, and enforcing 4-gate deterministic acceptance.
 ---
 
-# Stage 5: Adversarial 3-Reviewer Panel & Safe Refinement
+# Stage 5: Adversarial 4-Reviewer Panel & Safe Refinement
 
 ## Review & Revision Protocol (D-06, D-07)
-1. **Baseline 4-Gate Verification**: Confirm the pre-refinement manuscript passes all 4 deterministic gates before invoking LLM critics:
+1. **Baseline 4-Gate & Prose Audit Verification**: Confirm the pre-refinement manuscript passes all 4 deterministic gates and collect `avoid-ai-writing` prose diagnostics before invoking LLM critics:
    ```powershell
    .\.venv\Scripts\python.exe -m agy_paper_agent verify-bundle `
      --bundle-dir <bundle_path> `
      --report-out <bundle_path>/state/verification_reports/pre_refine_gates.json
+   .\.venv\Scripts\python.exe -m agy_paper_agent audit-prose `
+     --bundle-dir <bundle_path> `
+     --report-out <bundle_path>/state/verification_reports/stage5_prose_pre.json
    ```
-2. **Parallel 3-Reviewer Adversarial Panel**: Evaluate the manuscript independently from three orthogonal angles:
+2. **Parallel 4-Reviewer Adversarial Panel**: Evaluate the manuscript independently from four orthogonal angles:
    - `math_methodology` (`pro` tier): Audits assumptions, dimensional consistency, proofs/derivations, and symbol clarity against `contract/symbol_table.json`.
    - `empirical_evidence` (`pro` tier): Audits baseline fairness, table-to-text consistency, ablation explanations, and claim calibration against `contract/experimental_log.md`.
    - `vlm_venue_layout` (`flash`/`pro` multimodal): Audits page margins, float placement, `booktabs` formatting, and `template/guidelines.md` compliance.
+   - `prose_style` (`pro` tier + `paper-prose-audit` / `avoid-ai-writing`): Audits AI-writing tells, stacked `-ing` participial tails, self-labeling adverbials (`Crucially,`), repetitive transitions (`Moreover,`, `Furthermore,`), and clause-stuffed >85-word sentences while preserving domain math terms.
 3. **Anti-Reward-Hacking Revision Rules**:
    - Merge panel blocking issues with the user's `hitl_notes`.
    - Snapshot `manuscript/` (or run inside `workspace="branch"`) before editing.

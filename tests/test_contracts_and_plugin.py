@@ -234,8 +234,8 @@ def test_gate_suite_and_revision_decision_prevent_invalid_accept() -> None:
             }
         )
 
-    # Valid accept when all 4 gates pass and all 3 reviewer roles are present
-    decision = RevisionDecision.model_validate(
+    # Valid accept for legacy 3-reviewer worklogs (backward compatibility)
+    decision_legacy = RevisionDecision.model_validate(
         {
             "iteration": 1,
             "gates": _valid_gate_suite(all_pass=True),
@@ -243,7 +243,48 @@ def test_gate_suite_and_revision_decision_prevent_invalid_accept() -> None:
             "outcome": "accept",
         }
     )
-    assert decision.outcome == "accept"
+    assert decision_legacy.outcome == "accept"
+
+    # Valid accept for full 4-reviewer panel including prose_style + prose_audit summary
+    reviews_4 = [
+        *reviews,
+        {"reviewer_role": "prose_style", "score_1_to_10": 8.5},
+    ]
+    decision_4 = RevisionDecision.model_validate(
+        {
+            "iteration": 1,
+            "gates": _valid_gate_suite(all_pass=True),
+            "reviews": reviews_4,
+            "prose_audit": {"pre_issues": 4, "post_issues": 0, "passed": True},
+            "outcome": "accept",
+        }
+    )
+    assert decision_4.outcome == "accept"
+    assert len(decision_4.reviews) == 4
+
+    # Reject duplicate reviewer roles or incomplete custom combinations
+    with pytest.raises(ValidationError, match="Duplicate reviewer_role"):
+        RevisionDecision.model_validate(
+            {
+                "iteration": 1,
+                "gates": _valid_gate_suite(all_pass=True),
+                "reviews": [reviews[0], reviews[0], reviews[1]],
+                "outcome": "accept",
+            }
+        )
+    with pytest.raises(ValidationError, match="requires all 4 reviewer roles"):
+        RevisionDecision.model_validate(
+            {
+                "iteration": 1,
+                "gates": _valid_gate_suite(all_pass=True),
+                "reviews": [
+                    reviews[0],
+                    reviews[1],
+                    {"reviewer_role": "prose_style", "score_1_to_10": 8.0},
+                ],
+                "outcome": "accept",
+            }
+        )
 
 
 def test_exported_schemas_and_agy_plugin_manifest_are_valid() -> None:

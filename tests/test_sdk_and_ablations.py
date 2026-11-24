@@ -105,7 +105,7 @@ def test_google_antigravity_backend_config_wiring_and_raster_policy(
     assert kw["budget_config"].kwargs["max_model_calls"] == 12
     assert kw["vertex"] is True and kw["project"] == "quant-research-gcp"
     assert str(REPO_ROOT / "skills") in kw["skills_paths"]
-    assert len(kw["tools"]) == 4
+    assert len(kw["tools"]) == 5
 
     # Verify declarative policy blocks image-generator but allows research subagents
     deny_invoke = kw["policies"][0]
@@ -182,8 +182,8 @@ def test_sdk_runner_telemetry_hitl_guard_and_stage5_rollback(tmp_path: Path) -> 
     if shutil.which("pdflatex") is not None:
         res = asyncio.run(runner.run_pipeline(bundle, stage="stage5_refinement", auto_approve=True))
         assert res["stage5"]["outcome"] == "rollback"
-        assert res["telemetry"]["thoughts_tokens"] == 800  # 4 turns * 200
-        assert res["telemetry"]["total_tokens"] == 3400  # 4 turns * 850
+        assert res["telemetry"]["thoughts_tokens"] == 1000  # 5 turns * 200 (4 critics + 1 rev)
+        assert res["telemetry"]["total_tokens"] == 4250  # 5 turns * 850
         restored = (bundle / "manuscript" / "main.tex").read_text(encoding="utf-8")
         assert "2.15" in restored and "8.88" not in restored
 

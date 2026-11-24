@@ -11,7 +11,7 @@ Built on the multi-stage structure of PaperOrchestra (arXiv:2604.05018), `agy-pa
 ## Key features
 
 1. **Two execution modes (`D-01`)**:
-   - **AGY plugin**: Provides `plugin.json`, `rules/AGENTS.md`, `hooks.json`, 5 `SKILL.md` guides, and `workflows/paper_pipeline.py` (`run_workflow`).
+   - **AGY plugin**: Provides `plugin.json`, `rules/AGENTS.md`, `hooks.json`, 6 `SKILL.md` guides, and `workflows/paper_pipeline.py` (`run_workflow`).
    - **Python SDK (`google.antigravity`)**: Shares the same schemas, verifiers, and skills through `GoogleAntigravityBackend` and `SDKPaperCoAuthorRunner` (`AgentBehavior.INTERACTIVE` for step-by-step use, `AgentBehavior.AUTONOMOUS` for batch runs).
 2. **Optional Stage 0 input setup (`D-02`)**:
    - Works directly on a structured `paper_bundle/` (`contract/idea.md`, `contract/experimental_log.md`, `contract/symbol_table.json`), or extracts those files and `provenance_map.json` from an unstructured project folder.
@@ -28,7 +28,7 @@ Built on the multi-stage structure of PaperOrchestra (arXiv:2604.05018), `agy-pa
    - `latex_build`: Compiles with `pdflatex`/`xelatex` and `bibtex`/`biber` to catch undefined references, page-limit overflows, and `Overfull \hbox` warnings.
    - `symbol_table`: Checks math notation across sections against `contract/symbol_table.json`.
 7. **Review pass with snapshot rollback (`D-07`)**:
-   - Runs three targeted checks (`math_methodology`, `empirical_evidence`, `vlm_venue_layout`), applies user notes in an isolated copy, and restores the previous `manuscript/` snapshot if any automated check fails.
+   - Runs a four-critic panel (`math_methodology`, `empirical_evidence`, `vlm_venue_layout`, and `prose_style` powered by `avoid-ai-writing`), applies user notes in an isolated copy, and restores the previous `manuscript/` snapshot if any automated check fails.
 
 ## Repository layout
 
@@ -39,11 +39,12 @@ agy-paper-agent/
 |-- hooks.json                      # PreToolUse & Stop hooks
 |-- scripts/run_hook.py             # Cross-platform .venv hook launcher
 |-- rules/AGENTS.md                 # Authoring rules loaded with the plugin
-|-- skills/                         # 5 AGY skills
+|-- skills/                         # 6 AGY skills
 |   |-- paper-coauthor/SKILL.md
 |   |-- paper-ingestion/SKILL.md
 |   |-- paper-lit-verify/SKILL.md
 |   |-- paper-vector-viz/SKILL.md
+|   |-- paper-prose-audit/SKILL.md
 |   `-- paper-refinement/SKILL.md
 |-- workflows/                      # AGY run_workflow script & schema
 |   |-- paper_pipeline.py
@@ -123,6 +124,10 @@ To register the plugin globally in AGY, add its parent directory to `~/.gemini/c
   --bundle-dir ./examples/pilot_rc_fihgnn `
   --enforce-utilization `
   --output-pdf ./examples/pilot_rc_fihgnn/manuscript/main.pdf
+
+# Audit LaTeX prose for AI-writing patterns via avoid-ai-writing
+.\.venv\Scripts\python.exe -m agy_paper_agent audit-prose `
+  --bundle-dir ./examples/pilot_rc_fihgnn
 
 # Run guardrail ablation tests on a bundle
 .\.venv\Scripts\python.exe -m agy_paper_agent run-ablations `

@@ -8,7 +8,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from agy_paper_agent.contracts import CitationRegistry, DeterministicGateSuite, SymbolTable
-from agy_paper_agent.verifiers import run_all_gates
+from agy_paper_agent.verifiers import ProseAuditReport, audit_manuscript_prose, run_all_gates
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 TEMPLATES_DIR = REPO_ROOT / "templates"
@@ -163,3 +163,33 @@ def verify_paper_bundle(
         report_out.write_text(json.dumps(suite.model_dump(), indent=2) + "\n", encoding="utf-8")
 
     return suite
+
+
+def audit_bundle_prose(
+    bundle_dir: Path,
+    *,
+    tex_filename: str = "main.tex",
+    max_issues_per_file: int | None = None,
+    max_sentence_words: int = 85,
+    report_out: Path | None = None,
+) -> ProseAuditReport:
+    """Run `avoid-ai-writing` + academic LaTeX prose audit across `manuscript/`."""
+    manuscript_dir = bundle_dir / "manuscript"
+    tex_files: dict[str, str] = {}
+    entry_tex = manuscript_dir / tex_filename
+    if entry_tex.is_file():
+        tex_files[tex_filename] = entry_tex.read_text(encoding="utf-8")
+    sections_dir = manuscript_dir / "sections"
+    if sections_dir.is_dir():
+        for sf in sorted(sections_dir.glob("*.tex")):
+            tex_files[f"sections/{sf.name}"] = sf.read_text(encoding="utf-8")
+
+    report = audit_manuscript_prose(
+        tex_files,
+        max_issues_per_file=max_issues_per_file,
+        max_sentence_words=max_sentence_words,
+    )
+    if report_out is not None:
+        report_out.parent.mkdir(parents=True, exist_ok=True)
+        report_out.write_text(json.dumps(report.to_dict(), indent=2) + "\n", encoding="utf-8")
+    return report

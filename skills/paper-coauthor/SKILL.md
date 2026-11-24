@@ -23,8 +23,8 @@ Always initialize or inspect the target `paper_bundle/` first, then execute **on
 3. **Stage 1 - Outline & Citation Strategy**: Run `workflows/paper_pipeline.py` with `stage="stage1_outline"` (or generate `state/outline.json` validated against `schemas/outline.schema.json`). Pause for HITL Gate 1.
 4. **Stage 2 - Multi-Source Literature Review** (`paper-lit-verify`): Discover candidates (`flash`), authenticate via `verify-citations` CLI, and draft Introduction + Related Work (`pro`). Pause for HITL Gate 2.
 5. **Stage 3 - Pure Code-Vector Visuals** (`paper-vector-viz`): Build Matplotlib/TikZ sources via `build-visual` CLI (`D-05` zero raster) and audit rendered PNGs. Pause for HITL Gate 3.
-6. **Stage 4 - Section-by-Section Drafting**: Draft remaining sections grounded in `contract/symbol_table.json` and `contract/experimental_log.md`; run `verify-bundle` after each section. Pause for HITL Gate 4.
-7. **Stage 5 - Adversarial Refinement** (`paper-refinement`): Run the 3-critic panel + isolated branch revision + automatic 4-gate rollback check. Pause for HITL Gate 5.
+6. **Stage 4 - Section-by-Section Drafting**: Draft remaining sections grounded in `contract/symbol_table.json` and `contract/experimental_log.md`; run `verify-bundle` and `audit-prose` (`paper-prose-audit`) after each section. Pause for HITL Gate 4.
+7. **Stage 5 - Adversarial Refinement** (`paper-refinement` + `paper-prose-audit`): Run the 4-critic panel (`math_methodology`, `empirical_evidence`, `vlm_venue_layout`, `prose_style`) + isolated branch revision + automatic 4-gate and prose rollback check. Pause for HITL Gate 5.
 
 ## Workflow Invocation
 To delegate a single stage via AGY `run_workflow`:

@@ -107,7 +107,8 @@
           "enum": [
             "math_methodology",
             "empirical_evidence",
-            "vlm_venue_layout"
+            "vlm_venue_layout",
+            "prose_style"
           ],
           "title": "Reviewer Role",
           "type": "string"
@@ -168,11 +169,39 @@
       "title": "Outcome",
       "type": "string"
     },
+    "prose_audit": {
+      "anyOf": [
+        {
+          "additionalProperties": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "boolean"
+              }
+            ]
+          },
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Prose Audit"
+    },
     "reviews": {
       "items": {
         "$ref": "#/$defs/ReviewerCritique"
       },
-      "maxItems": 3,
+      "maxItems": 4,
       "minItems": 3,
       "title": "Reviews",
       "type": "array"

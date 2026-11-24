@@ -22,11 +22,12 @@ These invariants govern every stage of scientific manuscript authoring when the 
   - Stage 2: Verified Citation Pool + Introduction & Related Work
   - Stage 3: Vector Figures & Captions
   - Stage 4: Individual Core Sections (Methodology, Experiments, Conclusion, Abstract)
-  - Stage 5: Adversarial 3-Reviewer Panel & Isolated Revision
-- **4-Gate Pre-Condition**: Never mark a drafted section or revised manuscript as accepted (`outcome="accept"`) unless all four deterministic verifiers pass (`numeric_fidelity`, `citation_integrity`, `latex_build`, `symbol_table`).
+  - Stage 5: Adversarial 4-Reviewer Panel (`math_methodology`, `empirical_evidence`, `vlm_venue_layout`, `prose_style`) & Isolated Revision
+- **4-Gate Pre-Condition**: Never mark a drafted section or revised manuscript as accepted (`outcome="accept"`) unless all four deterministic verifiers pass (`numeric_fidelity`, `citation_integrity`, `latex_build`, `symbol_table`) and `audit-prose` reports zero critical P0 AI-writing artifacts.
 
-## 4. LaTeX & Typography Standards
+## 4. LaTeX, Prose Quality & Typography Standards
 - Use `booktabs` (`\toprule`, `\midrule`, `\bottomrule`) for tables; never use vertical rules.
 - Preserve template preambles and package options (never mutate `\usepackage[capitalize]{cleveref}`).
 - Maintain strict mathematical symbol consistency against `contract/symbol_table.json`; never redefine a global symbol with conflicting semantics across sections.
-- Use standard short ASCII hyphens `-` in prose and comments; never include decorative icons or emojis in manuscripts, captions, or technical logs.
+- Use standard short ASCII hyphens `-` in prose and comments; never include Unicode em/en dashes, LaTeX `---` splices, decorative icons, or emojis in manuscripts, captions, or technical logs.
+- Obey `avoid-ai-writing` / `paper-prose-audit` editorial discipline: avoid Tier-1A AI clichés (`delve`, `tapestry`, `testament to`, `pivotal`, `underscores`, `intricate`), cut self-labeling openers (`Crucially,`, `Importantly,`, `Notably,`) and stacked transition openers (`Moreover,`, `Furthermore,`), replace chained trailing `-ing` participial clauses with finite verbs, and keep prose sentences concise (typically <= 85 words).

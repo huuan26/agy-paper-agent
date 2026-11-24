@@ -37,11 +37,22 @@ ALL_GATES: tuple[GateName, ...] = (
     "latex_build",
     "symbol_table",
 )
-ReviewerRole = Literal["math_methodology", "empirical_evidence", "vlm_venue_layout"]
+ReviewerRole = Literal[
+    "math_methodology",
+    "empirical_evidence",
+    "vlm_venue_layout",
+    "prose_style",
+]
+LEGACY_REVIEWER_ROLES: tuple[ReviewerRole, ...] = (
+    "math_methodology",
+    "empirical_evidence",
+    "vlm_venue_layout",
+)
 ALL_REVIEWER_ROLES: tuple[ReviewerRole, ...] = (
     "math_methodology",
     "empirical_evidence",
     "vlm_venue_layout",
+    "prose_style",
 )
 ReviewDecisionOutcome = Literal["accept", "rollback", "await_hitl"]
 
@@ -336,17 +347,22 @@ class ReviewerCritique(StrictContractModel):
 class RevisionDecision(StrictContractModel):
     iteration: int = Field(..., ge=0, le=10)
     gates: DeterministicGateSuite
-    reviews: list[ReviewerCritique] = Field(..., min_length=3, max_length=3)
+    reviews: list[ReviewerCritique] = Field(..., min_length=3, max_length=4)
+    prose_audit: dict[str, int | float | str | bool] | None = Field(default=None)
     hitl_notes: list[str] = Field(default_factory=list)
     addressed_issues: list[str] = Field(default_factory=list)
     outcome: ReviewDecisionOutcome
 
     @model_validator(mode="after")
     def _enforce_panel_and_gate_invariants(self) -> RevisionDecision:
-        roles = {r.reviewer_role for r in self.reviews}
-        if roles != set(ALL_REVIEWER_ROLES):
+        role_list = [r.reviewer_role for r in self.reviews]
+        if len(role_list) != len(set(role_list)):
+            raise ValueError(f"Duplicate reviewer_role in RevisionDecision: {role_list}.")
+        roles = set(role_list)
+        if roles not in (set(ALL_REVIEWER_ROLES), set(LEGACY_REVIEWER_ROLES)):
             raise ValueError(
-                f"RevisionDecision requires all 3 reviewer roles {ALL_REVIEWER_ROLES}, got {roles}."
+                f"RevisionDecision requires all 4 reviewer roles {ALL_REVIEWER_ROLES} "
+                f"(or legacy 3-role panel {LEGACY_REVIEWER_ROLES}), got {sorted(roles)}."
             )
         if self.outcome == "accept" and not self.gates.all_passed:
             raise ValueError("Cannot set outcome='accept' when any deterministic gate has failed.")
